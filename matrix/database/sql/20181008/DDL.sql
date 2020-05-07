@@ -1,0 +1,1 @@
+alter table cms_ad_locations add column default_ad_id INT(10) NULL COMMENT '默认广告ID';

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+	<title>看高手</title>
+	<style>
+		body{ 
+			margin: 0;
+			padding: 0;
+			box-sizing: content-box;
+			font-family: "Arial,Helvetica,sans-serif";
+		}
+		.wrap{
+			margin: 0 auto;
+			width: 100%;
+			max-width: 1000px;
+			overflow: hidden;
+		}
+		.guide-img img{
+			width: 325px;
+			padding-left: 18px; 
+		}
+		.guide-img:nth-child(2){
+			text-align: right;
+		}
+		.guide-img:nth-child(2) img{
+			padding-left: 0;
+			padding-right: 18px; 
+		}
+		.imgs{
+			margin: 13px 0 30px;
+		}
+    .actions{
+      position: fixed;
+			bottom: 58px;
+      width: 100%;
+      max-width: 1000px;
+			text-align: center;
+		}
+		.actions .btn-img{
+			margin: 0 auto;
+			width: 300px;
+			height: 86px;
+			background: url(images/btn_default.png) no-repeat;
+			background-size: 300px 86px;
+		}
+		.actions .btn-img:active{
+      background: url(images/btn_pressed.png) no-repeat;
+			background-size: 300px 86px;
+		}
+		.actions .link a{
+			color: #666;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="imgs">
+			<div class="guide-img"><img src="images/app_guide_1.png" alt=""></div>
+			<div class="guide-img"><img src="images/app_guide_2.png" alt=""></div>
+			<div class="guide-img"><img src="images/app_guide_3.png" alt=""></div>
+		</div>
+		<div class="actions">
+			<div class="btn-img" onclick="window.location.href='http://www.zhongyingtougu.com/version/download/?ADTAG=631.841'"></div>
+			<div class="link"><a href="https://chat.zhongyingtougu.com/">暂时使用网页版</a></div>
+		</div>
+	</div>
+</body>
+</html>

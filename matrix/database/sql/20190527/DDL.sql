@@ -1,0 +1,1 @@
+ALTER TABLE `cms_ads` MODIFY COLUMN `jump_params` VARCHAR(500) NULL COMMENT '提供给原生跳转使用的参数';

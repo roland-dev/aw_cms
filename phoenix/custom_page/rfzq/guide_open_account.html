@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+	<title>瑞丰证券——极速开户</title>
+	<style>
+		body{ 
+      background: #fff;
+			margin: 0;
+			padding: 0;
+			box-sizing: content-box;
+			font-family: "Arial,Helvetica,sans-serif";
+		}
+		.wrap{
+			margin: 0 auto;
+			width: 100%;
+			max-width: 1000px;
+			overflow: hidden;
+		}
+		.banner-img img{
+			width: 100%;
+		}
+		.tips{
+			color: #666;
+			padding-left: 44px;
+		}
+		.tip{
+			margin-top: 20px;
+		}
+		.tip-img{
+			float: left;
+			padding-top: 2px;
+		}
+		.tip-img img{
+			width: 40px;
+		}
+		.tip-name{
+			margin-left: 50px;
+			font-size: 20px;
+			color: #333;
+			font-weight: bold;
+		}
+		.describe{
+			margin-left: 50px;
+			font-size: 12px;
+			margin-top: 4px;
+		}
+
+    	.open-btn {
+  			position: fixed;
+		    bottom: 0;
+			font-size: 18px;
+			font-weight: bold;
+			width: 100%;
+			max-width: 1000px;
+			text-align: center;
+			height: 48px;
+			line-height: 48px;
+			color: #fff;
+			background: #4399ff;
+		}
+		.open-btn:active {
+			background: #078ef2;
+		}
+		.fixed {
+			position: fixed;
+			bottom: 0px;
+			height: 66px;
+			width: 100%;
+			background-color: #404446;
+		}
+		.logo {
+			float: left;
+			padding: 11px 0px 11px 16px;
+		}
+		.logo img {
+			width: 44px;
+			height: 44px;
+		}
+		.logo-text {
+			float: left;
+			padding: 15px 0px 15px 9px;
+		}
+		.logo-text .name {
+			font-size: 19px;
+			line-height: 24px;
+			color: #fff;
+			font-weight: bold;
+		}
+		.logo-text .description {
+			font-size: 12px;
+			line-height: 16px;
+			color: #fff;
+		}
+		.download-btn {
+			float: right;
+			margin: 16px;
+			width: 83px;
+			height: 38px;
+			background-color: #298cfc;
+			border-radius: 8px;
+			line-height: 38px;
+			text-align: center;
+			font-size: 14px;
+			color: #fff;
+		}
+	    #invite {
+	      color: #fff;
+	      float: right;
+	      margin-top: -20px;
+	      margin-right: 20px;
+	    }
+	    .website{
+    	    position: fixed;
+		    bottom: 72px;
+		    left: calc(50% - 110px);
+		    width: 220px;
+		    font-size: 13px;
+	    }
+	</style>
+	<div style='display:none;'>
+		<img src='img/rfzq300x300.png' />
+	</div>
+</head>
+<body>
+	<div class="wrap">
+		<div class="banner-img"><img src="img/openacc_banner.png" alt=""></div>
+		<div class="tips">
+      <div id="invite"></div>
+			<div class="tip">
+				<div class="tip-img">
+					<img src="img/openacc_1.png" alt="">
+				</div>
+				<div class="tip-name">一站式服务</div>
+				<div class="describe">3分钟轻松完成开户</div>
+			</div>
+			<div class="tip">
+				<div class="tip-img">
+					<img src="img/openacc_2.png" alt="">
+				</div>
+				<div class="tip-name">全球配置</div>
+				<div class="describe">A股、港股一户通</div>
+			</div>
+			<div class="tip">
+				<div class="tip-img">
+					<img src="img/openacc_3.png" alt="">
+				</div>
+				<div class="tip-name">专家护航</div>
+				<div class="describe">多名资深分析师实时在线互动，让您赢在现在</div>
+			</div>
+			<div class="tip">
+				<div class="tip-img">
+					<img src="img/openacc_4.png" alt="">
+				</div>
+				<div class="tip-name">无忧投资</div>
+				<div class="describe">入金无限制，融资利息低，资金受监管</div>
+			</div>
+		</div>
+		<div class="website">瑞丰官网：<a href="https://ruifengsec.com/">https://ruifengsec.com</a></div>
+		<div class="open-btn">立即开户</div>
+	</div>
+	<!-- <div class="fixed" id="fixed">
+		<div class="logo">
+			<img src="img/logo_small.png">
+		</div>
+		<div class="logo-text">
+			<div class="name">
+				瑞丰证券
+			</div>
+			<div class="description">
+				放眼全球，自由投资
+			</div>
+		</div>
+		<div class="download-btn" onclick="window.location.href='app.html'">
+			免费下载
+		</div>
+	</div> -->
+	<script src="js/jweixin.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			wx.config({
+			    debug: false,
+			    appId: 'wx2aa74267638e0772',
+			    timestamp: 1547433650391,
+			    nonceStr: 'hMYMoafcYeV5mRFh',
+			    signature: 'c9d59fbcce39b8f4aa1e213ddee3626d59e12133',
+			    // 所有要调用的 API 都要加到这个列表中
+                jsApiList: [
+                    "onMenuShareTimeline",
+                    "onMenuShareAppMessage"
+                ]
+            });
+            wx.error(function (res) {
+                console.log(res);
+            });
+            wx.ready(function(res) {
+            	// 分享给好友
+		        wx.onMenuShareAppMessage({
+		            title: document.title,
+		            desc: document.title,
+		            link: window.location.href,
+		            imgUrl: "https://cms.ruifengsec.com.cn/h5/rfzq/img/rfzq300x300.png",
+		            trigger: function(res) {},
+		            success: function(res) {},
+		            cancel: function(res) {},
+		            fail: function(res) {}
+		        });
+		        // 分享到朋友圈
+		        wx.onMenuShareTimeline({
+		            title: document.title,
+		            link: window.location.href,
+		            imgUrl: "https://cms.ruifengsec.com.cn/h5/rfzq/img/rfzq300x300.png",
+		            trigger: function(res) {},
+		            success: function(res) {},
+		            cancel: function(res) {},
+		            fail: function(res) {}
+		        });
+		    });
+			var res = GetRequest();
+			// var caller = res["caller"];
+			// if ('app' === caller) {
+			// 	document.getElementById('fixed').style.display = 'none';
+			// }
+	        // 前往开户页
+      var openBtn = document.querySelector(".open-btn")
+      var invite = res["invite"]
+      if (invite) {
+        var inviteArea = document.querySelector("#invite")
+        inviteArea.innerHTML = invite
+      }
+      openBtn.onclick = function () {
+				var url = invite ? 'https://reg.ruifengsec.com.cn?invite=' + invite : 'https://reg.ruifengsec.com.cn'
+				// caller参数给瑞丰证券开户识别是否出现下载链接。caller=1 或 caller=app 表示不出现app下载链接
+				var caller = res["caller"]
+				if (caller) {
+					if(caller === "app") {caller = 1}
+					url = url + "?caller=" + caller
+				}
+		        window.location.href = url
+	        }
+		}
+
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串   
+			var theRequest = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+	</script>
+</body>
+</html>

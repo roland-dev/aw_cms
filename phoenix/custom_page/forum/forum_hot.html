@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>近日投资论坛</title>
+    <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.1/weui.css">
+    <link rel="stylesheet" href="css/local.css">
+    <style type="text/css">
+        .loadmore.with_line {
+            color: #9b9b9b;
+            margin: 5px 5px 30px;
+        }
+        body{ font-size: 16px; font-family: "arial";}   
+        .hot-card{ border-radius: 4px; background: white; margin: 8px 5px; overflow: hidden;}
+        .hot-card .title{ height: 21px; line-height: 21px; padding: 11px 12px; overflow: hidden; border-bottom: 1px solid #e2e2e2; background: #f8f8f8; font-size: 1.2em}
+        .hot-card .title-name{ color: #ff573f; float: left;}
+        .hot-card .title-date{ color: #ff573f; float: right; font-size: 18px;}
+        .hot-card:active{ background: #ececec}
+        .content table{ width: 100%; font-size: 16px; text-align:justify; text-justify:inter-ideograph;}
+        .content table tr{ min-height: 24px;}
+
+        table .red{ color: #e60020 }
+        table .green{ color: #1ebf62; }
+        table .blue{ color: #0da4d3; }
+        table .tl{ text-align: left; }
+        table .tc{ text-align: center; }
+        table .tr{ text-align: right; }
+        table .mw{ min-width: 80px; vertical-align: top;color: #0da4d3;}
+        @media screen and (min-width: 768px) {
+            .wrap{ width: 768px; margin: auto; }
+        }
+
+        .attention {
+            line-height: 25px;
+            text-align: center;
+            background: #fff;
+            padding: 8px 10px;
+            color: #0da4d3;
+        }
+        .gu_plan{ color: #0da4d3; }
+        a{ color: #333; text-decoration: none;}
+
+    </style>
+    <script src="//cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+    <script type="text/javascript" src="js/doT.min.js"></script>
+</head>
+<body>
+
+<div class="profile_info appmsg">
+    <span class="radius_avatar profile_avatar">
+        <img src="images/moshijiaoxue.png" id="icon">
+    </span>
+    <strong class="profile_nickname" id="nickname">
+        近日投资论坛
+    </strong>
+    <p class="profile_desc">
+         及时了解市场动态，发掘未来投资机会          
+    </p>
+</div>
+
+<div class="weui_category_title js_tag">所有消息</div>
+<div class="wrap" id="js_msg_card">
+</div>
+
+<script id="template" type="text/template">
+<div class="cards" id="cards">
+{{~ it:data }}
+    <a href="forum.html?id={{= data.forum_id }}">
+    <div class="hot-card" style="cursor: pointer;">
+          <div class="title" url-detail="/ai_table_detail.php?table_id=8">
+              <div class="title-name">论坛开放时间：</div>
+              <div class="title-date">
+                {{= data.forum_date_short }}
+              </div>
+          </div>
+          <div class="content">
+            <img src="{{= data.poster_url }}" style="max-width:100%;width:100%;">
+          </div>
+            <div class="attention" title="虎踞2号" risk="1" pid="80"> 
+                <div style="color: red; font-weight: 200;">
+                    {{? data.hours > 0 }}
+                        距离开始还有{{= data.hours }}小时
+                    {{??}}
+                        {{? data.minutes > 0 }}
+                            距离开始还有{{= data.minutes }}分钟
+                        {{?}}
+                    {{?}}
+                </div>
+                <div>点击进入详情 >> </div>
+            </div>
+    </div>
+    </a>
+{{~}}
+</div>
+</script>
+
+<div class="loadmore" style="" id="js_loading">
+    <div class="tips_wrp"><i class="icon_loading"></i><span class="tips">正在加载</span></div>
+</div>
+
+<div class="loadmore with_line" style="display:none;padding-top: 30px;" id="js_norecord">
+    <div class="tips_wrp">
+        <span class="tips">近日暂无投资论坛，请耐心等待排期。</span>
+    </div>温馨提示：投资论坛一般会在开放时间提前1-3天通告。
+</div>
+
+<script src="../env.js"></script>
+<script type="text/javascript">
+    $(function(){
+      var url = window.location.href 
+      var encodeUrl = encodeURI(url)
+      $.ajax({
+          type: "get",
+          url: baseURL + "/api/v2/forum",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true
+          },
+          success: function(json){
+            if (json.code === 1000 || json.code === 1002) {
+              console.log("调转登录")
+              window.location.href = json.callback_url + '?callback=' + encodeUrl;
+            } else {
+              data = json.data
+              let dot = doT.template($("#template").html());
+              $('#js_msg_card').html(dot(data));
+              $("#js_loading").css("display", "none");
+              if (data.length == 0) {
+                $("#js_norecord").css("display", "block");
+              }
+            } 
+          },
+          error: function(){
+            alert('请刷新页面');
+          }
+      })
+    });
+
+</script>
+
+<script>
+//tx statsitic
+var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.2";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500471073");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script>
+</body>
+
+</html>

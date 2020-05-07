@@ -1,0 +1,588 @@
+<html lang="en" data-scale="true"><head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" id="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" type="image/x-icon">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="//cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+    <script>window.isDelayLoadForApp = true;</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *,
+        :after,
+        :before {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        svg:not(:root) {
+            overflow: hidden;
+        }
+
+        audio,
+        canvas,
+        iframe,
+        img,
+        svg,
+        video {
+            vertical-align: middle;
+        }
+
+        svg {
+            fill: currentColor;
+        }
+
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            font-size: 1rem;
+            overflow: auto;
+        }
+
+        body,
+        div,
+        html,
+        p,
+        span {
+            font-family: PingFang SC, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+        }
+
+        a {
+            color: #064174;
+            background: transparent;
+            text-decoration: none;
+        }
+        #loading{
+            display: block;
+        }
+        #app {
+            display: none;
+            background-color: rgba(30, 30, 30, 0);
+            width: 100%;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container__2Ylna {
+            width: 100%;
+            margin: 0;
+            background: #fff;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .main__BK_-w {
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .container__2Ylna .title1__lNHpI {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.8rem;
+            color: #262626;
+            line-height: 150%;
+        }
+
+        .container__2Ylna .head__1v7IL {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #bdbdbd;
+        }
+
+        .container__2Ylna .head__1v7IL span {
+            margin-right: 0.5rem;
+        }
+
+        .container__2Ylna .head__1v7IL span:nth-child(2) {
+            margin-right: 0.5rem;
+            overflow: hidden;
+        }
+
+        .container__2Ylna .head__1v7IL a {
+            color: #064174;
+            font-size: 0.75rem;
+            text-decoration: underline dotted;
+        }
+
+        .container__2Ylna .abstract__1UNfS {
+            position: relative;
+            margin-top: 1.25rem;
+            padding: 0.6rem;
+            color: #676767;
+            font-size: 0.85rem;
+            line-height: 200%;
+            background: #fff3f2;
+        }
+
+        .body__4Yj8j {
+            margin-top: 1.8rem;
+            color: #262626;
+            font-size: 1rem;
+            line-height: 180% !important;
+        }
+
+        .body-sm__FTgoD {
+            font-size: 1rem !important;
+            line-height: 180% !important;
+        }
+
+        .body__4Yj8j div,
+        .body__4Yj8j p,
+        .body__4Yj8j span {
+            font-size: 1rem;
+            line-height: 180%;
+            word-break: normal;
+        }
+
+        .body__4Yj8j font,
+        .body__4Yj8j p {
+            margin-top: 1rem !important;
+            color: #262626 !important;
+            word-break: normal;
+        }
+
+        .body-sm__FTgoD div,
+        .body-sm__FTgoD font,
+        .body-sm__FTgoD p {
+            margin-top: 1rem !important;
+        }
+        
+        .body-sm__FTgoD img {
+            width: 95%;
+        }
+        .container__2Ylna .link__1GQzj {
+            position: relative;
+            display: block;
+            margin-top: 3.2rem;
+            padding: 0.5rem 0.25rem;
+            border: 0.1rem solid #f4f4f4;
+        }
+
+        .container__2Ylna .link__1GQzj .linkSVG__1N6nx {
+            position: absolute;
+            width: 2.5rem;
+            left: -0.1rem;
+            top: -0.1rem;
+        }
+
+        .container__2Ylna .link__1GQzj div {
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            line-height: 200%;
+            color: #064174;
+        }
+
+        .container__2Ylna .info1__3shKQ {
+            font-size: 0.8rem;
+            color: #9e9e9e;
+            line-height: 120%;
+            margin: 1rem 0;
+        }
+
+        .container__2Ylna .separator1__3O7lQ {
+            height: 0.08rem;
+            background: #f4f4f4;
+        }
+
+        .container__2Ylna .tags__2Mxb- {
+            margin: 0.35rem 0;
+        }
+
+        .container__2Ylna .tags__2Mxb- span {
+            display: inline-block;
+            box-sizing: border-box;
+            margin: 0.35rem;
+            padding: 0.35rem 0;
+            min-width: 5rem;
+            text-align: center;
+            border: 0.2 solid #f4f5f9;
+            background: #f4f5f9;
+            font-size: 0.8rem;
+            color: #575757;
+            border-radius: 0.08rem;
+        }
+        .tip{
+            font-size: 13px;
+            color: #666;
+            padding: 10px 12px 12px 12px;
+            margin: 30px 0;
+            background: #fff5f5;
+            border-radius: 2px;
+        }
+        .tip .title{
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .tip .title img{
+            width: 6px;
+            margin: 0 4px;
+            vertical-align: 1px;
+        }
+        .forward-img{
+            width: 60px;
+            margin: 30px auto;
+            cursor: pointer;
+        }
+        .forward-img img{
+            cursor: pointer;
+            width: 100%;
+        }
+        .forward{
+            padding: 15px;
+            display: none;
+        }
+        .forward .comment{
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+        .share{
+            background: #F6F6F6;
+            width: 100%;
+            margin: 10px 0;
+            box-sizing: border-box;
+            padding: 10px;
+            line-height: 21px;
+        }
+        .share-img{
+            width: 44px;
+            height: 44px;
+            float: left;
+        }
+        .share-img img{
+            width: 100%;
+            border-radius: 4px;
+        }
+        .share-title{
+            width: calc(100% - 45px);
+            margin-left: 50px;
+        }
+        .bottom{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        .function{
+            border-top: 1px solid #e2e2e2;
+            height: 50px; line-height: 50px;
+            box-sizing: border-box;
+            padding: 0 15px;
+        }
+        .function span{
+            float: right;
+        }
+        .emoji-btn{
+            width: 24px;
+            height: 24px;
+            margin-top: 12px;
+        }
+        .reply{
+            margin-bottom: 70px;
+        }
+        .reply-title{
+            position: relative;
+            width: 110px;
+            height: 18px;
+            background: #fee339;
+            margin: 0 auto;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .reply-title span{
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: -14px;
+            left: 0px;
+        }
+        .reply-total{
+            position: relative;
+            margin-top: 18px;
+            height: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 4px solid #fa3d41;
+        }
+        .reply-total span{
+            position: absolute;
+            top: -4px;
+            margin-left: 8px;
+        }
+        .forward-btn{
+            display: inline-block;
+            float: right;
+            margin-right: 15px;
+            font-size: 13px;
+            width: 42px;
+            height: 26px;
+            line-height: 26px;
+            margin-top: 12px;
+            border-radius: 13px;
+            text-align: center;
+            background: #0B9DFF;
+            color: #fff;
+        }
+        .forward-btn:active{
+            background: #247DE2;
+        }
+        .forward-checkbox input{
+            background: transparent;
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <title></title>
+</head>
+<body style="">
+    <div id="loading">加载中...</div>
+    <div id="app">
+        <div>
+            <div class="container__2Ylna">
+                <div class="main__BK_-w">
+                    <div class="title1__lNHpI" id="newsTitle"></div>
+                    <div class="head__1v7IL">
+                        <span id="newsTime"></span>
+                        <span id="newsSource"></span>
+                        <a href="http://new.qq.com/omn/20190321/20190321A0O2ZC.html" target="_self" id="newsLink" style="display: none;">查看原文</a>
+                    </div>
+                    <div class="body-sm__FTgoD body__4Yj8j">
+                        <div id="newsBody" style=""><!--?xml version="1.0" encoding="UTF-8"?--> 
+                        <div class="content-article">                           
+                        <div id="Status"> 
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="link__1GQzj" style="border: 0.5px solid rgb(229, 229, 229);">
+                <div class="linkSVG__1N6nx">
+                    <svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>link</title>
+                        <desc>Created with Sketch.</desc>
+                        <defs></defs>
+                        <g id="众赢财富通" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="首页－新闻详情版权" transform="translate(-15.000000, -622.000000)">
+                                <g id="link" transform="translate(15.000000, 622.000000)">
+                                    <polygon id="矩形-2" fill="#2F77B5" points="0 0 30 0 0 30"></polygon>
+                                    <g id="分组-3" transform="translate(10.035534, 10.500000) rotate(-315.000000) translate(-10.035534, -10.500000) translate(7.035534, 3.500000)">
+                                        <path d="M5.12132034,8.87867966 L5.12132034,11.3786797 C5.12132034,12.7593915 4.00203222,13.8786797 2.62132034,13.8786797 L2.62132034,13.8786797 C1.24060847,13.8786797 0.121320344,12.7593915 0.121320344,11.3786797 L0.121320344,8.87867966" id="矩形-15" stroke="#FFFFFF" stroke-linecap="round"></path>
+                                        <path d="M0.121320344,5.87867966 L0.121320344,3.37867966 C0.121320344,1.99796778 1.24060847,0.878679656 2.62132034,0.878679656 L2.62132034,0.878679656 C4.00203222,0.878679656 5.12132034,1.99796778 5.12132034,3.37867966 L5.12132034,5.87867966" id="矩形-15-copy" stroke="#FFFFFF" stroke-linecap="round"></path>
+                                        <rect id="矩形-13" fill="#FFFFFF" x="2.12132034" y="3.87867966" width="1" height="6" rx="0.5"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <div style="padding-left: 15px;" id="newsTitle2"></div>
+                <div style="padding-left: 15px;" id="newsLink2"></div>
+            </div>
+            <div class="info1__3shKQ" id="copyright" style="">如有版权问题，请联系众赢财富通客服</div>
+            <div class="separator1__3O7lQ"></div>
+            <div class="tags__2Mxb-">
+                <div id="newsTags"><span>5g</span><span class="stock_code" onclick="window.viewStockInfo(event)" symbol="600050.SS">600050.SS</span></div>
+            </div>
+            <div class="forward-img"><img src="images/share2_default.png" alt=""></div>
+            <div class="tip">
+              <div class="title">
+                <img src="images/img_risk.png" alt=""> 风险提示
+                <img src="images/img_risk.png" alt="">
+              </div>
+              <div>本页面资讯内容和其他基于人工智能算法关联的信息服务，仅供投资参考，不构成投资建议。</div>
+            </div>
+          <!--   <div class="reply">
+                <div class="reply-title"><span>评论区域</span></div>
+                <div class="reply-total"><span>9条评论</span></div>
+                <div class="reply-list">
+                    <div class="reply-item">
+                        
+                    </div>
+                </div>
+                <div class="reply-empty">
+                    
+                </div>
+            </div> -->
+           
+        </div>
+    </div>
+    <div class="forward">
+        <textarea class="comment" placeholder="在这里输入您的点评内容"  rows="6" maxlength="500"></textarea>
+        <div class="share">
+            <div class="share-img"><img src="images/share-demo.jpg" alt=""></div>
+            <div class="share-title">外媒：监管层窗口指导券商大额股权质押不能强平</div>
+        </div>
+        <div class="bottom">
+            <div class="emoji-content"></div>
+            <div class="function">
+                <img src="images/emoji_Default.png" alt="" class="emoji-btn">
+                <div class="forward-btn" onclick="shareToList()">转发</div>
+                <span class="forward-checkbox"><input type="checkbox">同时评论</span>
+            </div>
+        </div>
+    </div>
+    <script src="../lib/js/layer.js"></script>
+    <script type="text/javascript">
+        function parseQueryString(queryString) {
+            var params = {},
+                queries, temp, i, l;
+            // Split into key/value pairs
+            queries = queryString.replace('?', '').split("&");
+            // Convert the array of strings into an object
+            for (i = 0, l = queries.length; i < l; i++) {
+                temp = queries[i].split('=');
+                params[temp[0]] = temp[1];
+            }
+            return params;
+        };
+
+        // 展示文章详情
+        function showResp(resp) {
+            var news = resp.data;
+            if (news) {
+                $.get(news.detailUrl, function (txt) {
+                    // 获取body内容
+                    var start = txt.indexOf('<body>');
+                    var end = txt.indexOf('</body>');
+                    var _realBody = txt.substring(start + 6, end);
+                    //
+                    document.title = '详情 - ' + news.title;
+                    $("#app").show()
+                    $('#loading').hide()
+                    $("#copyright").show();
+
+                    $("#newsTitle").html(news.title);
+                    $("#newsTitle2").html(news.title);
+                    $("#newsTime").html(news.publishTime.substring(5,16));
+                    $("#newsSource").html(news.source);
+                    $("#newsLink").attr('href', news.originalUrl);
+                    $("#newsLink2").text(news.originalUrl).parent().show();
+                    if (news.body && news.body.length > 0) {
+                        $("#newsSummary").html(news.body).parent().show();
+                    }
+                    $("#newsBody").hide();
+
+                    $("#newsBody").html(_realBody).show();
+                    $("#newsBody a").attr('href', '#');
+
+                    $.each(news.industryTags, function (index, tag) {
+                        $("#newsTags").append("<span>" + tag + "</span>");
+                    });
+                    $.each(news.themeTags, function (index, tag) {
+                        $("#newsTags").append("<span>" + tag + "</span>");
+                    });
+                    $.each(news.tickers, function (index, tag) {
+                        $("#newsTags").append("<span class='stock_code' onclick='window.viewStockInfo(event)' symbol='" + tag.symbol + "'>" +
+                            tag.symbol +
+                            "</span>");
+                    });
+                });
+            } else {
+                $("#newsSummary").html(resp.msg).parent().show();
+            }
+        };
+        function shareToList(){
+            $.ajax({
+                    url: 'http://api.cms.daohehui.com/api/v2/interaction/forward/twitter',
+                    type: 'post',
+                    headers: {
+                      "X-SessionId": "c8ae40e7cfec46748e1453ef21776ae0",
+                    },
+                    data: {
+                        // content: "去转发",
+                        ref_type: "news",
+                        ref_id: 87,
+                        ref_title: "*ST上普 拟主动终止公司股票上市",
+                        // ref_thumb: "https://bigdata-s3.wmcloud.com/news/n-IvLe9ZfLuJ1PM8BrMNsg_0.jpg"    
+                        // ref_thumb: ""    
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.open({
+                                content: res.msg,
+                                skin: 'msg',
+                                time: 2 //2秒后自动关闭
+                              });
+                        }
+                    },
+                    error: function (err) {
+                        layer.open({
+                            content: "网络连接异常~",
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+                        console.error(err)
+                    }
+                });
+        }
+        $(document).ready(function () {
+            // var qs = parseQueryString(window.location.search);
+            // alert(qs);
+            // var url = window.location.protocol + '//' + window.location.hostname + '/api/v2/sc/news/hots/' + qs[
+            //     'newsId'] + "?nonce=" + qs['nonce'];
+
+            // var url = 'http://api.zhongyingtougu.com/api/v2/sc/news/hots/55281382?nonce=1553218665978'
+            var url = 'http://stock.zhongyingtougu.com/api/v2/sc/news/hots/55278889'
+            $("#newsLink").hide();
+            $("#newsLink2").parent().hide();
+            $("#copyright").hide();
+            
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                xhrFields: { withCredentials: true },
+                success: function (resp) {
+                    showResp(resp);
+                },
+                error: function (xhr, errorType, error) {
+                    layer.open({
+                        content: "'接口发生错误: ' + err",
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            });
+
+            // 点击转发
+            $('.forward-img').click(function(){
+                $('.forward-img img').attr('src', 'images/share2_pressed.png')
+                setTimeout(function(){
+                    $('.forward-img img').attr('src', 'images/share2_default.png')
+                },300) 
+                $('.container__2Ylna').hide()
+                $('.forward').show()
+                $('title').text("在这里输入您的点评内容。。。")
+            })
+
+            // 点击笑脸
+            $('.emoji-btn').click(function(){
+                $('.emoji-btn').attr('src', 'images/emoji_Pressed.png')
+                setTimeout(function(){
+                    $('.emoji-btn').attr('src', 'images/emoji_Default.png')
+                },300) 
+                $('.emoji-content').show()
+            })
+        });
+
+    </script>
+    <script src="//api.zhongyingtougu.com/static/news/viewStock.js?v=121914" type="text/javascript"></script>
+    <script src="//cms.zhongyingtougu.com/lib/previewImage.js?v=121914"></script>
+</body>
+</html>

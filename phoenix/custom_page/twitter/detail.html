@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=2.0,user-scalable=yes,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <title>香江论剑</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detail.css?v=20190214">
+    <link rel="stylesheet" href="css/minirefresh.min.css">
+    <link rel="stylesheet" href="css/photoswipe.css">
+    <link rel="stylesheet" href="css/default-skin/default-skin.css">
+</head>
+<body ontouchstart>
+    <div class="user-message" id="user-message">
+        <img class="user-img" src="img/img_avatar_30pt.png">
+        <span class="phone-num"></span>
+        <div class="icon-message">
+            <img src="img/icon_Message_Default.png">
+            <div class="message-num"></div>
+        </div>
+        <img class="signout" src="img/icon_Quit_Default.png">
+    </div>
+    <div class="video">
+        <div id="videoShow">
+          <video width="320" height="240" poster="" playsinline="true" x5-video-orientation="portraint" webkit-playsinline="true" id="video" controls>
+            <source src="video/movie.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            您的浏览器不支持 video 标签。
+          </video>
+          <img src="img/icon_video_Play.png" class="img-play">
+          <img src="img/icon_video_Suspend.png" class="img-suspend">
+        </div>
+        
+        <div id="videoPoster">
+          <img src="" alt="图片加载中" class="cover-img">
+        </div>
+    </div>
+
+    <div class="top">
+        <div class="tea-info">
+            <div class="content" id="tea-detail">
+               
+            </div>
+        </div>
+        <div class="empty"></div>
+        <div id="column">
+            <div class="column-item dynamic-btn active">
+                <span>动态</span>
+                <div class="underline"></div>
+            </div>
+            <div class="column-item letter-btn">
+                <span style="position: relative;">私信<b class="red-dot"></b></span>
+                
+                <div class="underline"></div>
+            </div>
+        </div>
+    </div>
+    <div class="dynamic">
+        <div class="no-read-twitter"></div>
+        <div class="new_message" id="new-message">
+            <div class="message">
+                <img src="img/img_Up.png">
+            </div>
+        </div>
+        <div class="remind">
+            <span>点击右侧关注后，即可查看老师动态</span>
+            <img src="img/icon_close_Blue.png" class="img-close">
+        </div>
+        <div class="no-follow">
+            <img src="img/img_Unfollow.png" class="img-follow">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">万水千山总是情，关注一下行不行</div>
+            </div>
+        </div>
+        <div class="before-follow">
+            <img src="img/img_Verify1.png" class="img-follow">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">关注审批中，请耐心等待</div>
+            </div>
+        </div>
+        <div class="no-data" id="no-data">
+            <img src="img/img_Unfollow.png" class="img-emptyData">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">矮油，来太早了，还没动态哦</div>
+            </div>
+        </div>
+        <div id="news-minirefresh" class="minirefresh-wrap">
+            <div class="minirefresh-scroll">
+                <div class="content" id="news_content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="letter">
+        <div class="no-privilege" id="no-privilege">
+            <img src="img/img_Security.png" class="img-privilege">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">嘤嘤嘤，没有权限，如何切磋～</div>
+                <div class="btn">申请开通</div>
+            </div>
+        </div>
+        <div class="no-message">
+            <img src="img/img_Chat.png" class="img-message">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">没有私信记录，爱要大声说出来！</div>
+            </div>
+        </div>
+        <div class="no-follow">
+            <img src="img/img_Unfollow.png" class="img-follow">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">万水千山总是情，关注一下行不行</div>
+            </div>
+        </div>
+        <div class="before-follow">
+            <img src="img/img_Verify1.png" class="img-follow">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">关注申请审批通过后，才可进行私信申请哦</div>
+            </div>
+        </div>
+        <div class="request-follow">
+            <img src="img/img_Verify1.png" class="img-follow">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">私信申请审核中，请耐心等待</div>
+            </div>
+        </div>
+        <div class="content">
+           
+        </div>
+    </div>
+    <div class="letter-input">
+        <input type="text" placeholder="友善发言的人运气都不会太差…" class="text-input" id="letterInput">
+        <img src="img/icon_ChatBar_add_Default.png" class="letter-input-btn" id="sendLetter">
+        <div class="input-img">
+            <div class="item camera">
+                <input type="file" accept="image/*" capture='camera' id="sendCamera">
+                <img src="img/icon_camera.png">
+                <p>相机</p>
+            </div>
+            <div class="item photo">
+                <input type="file" accept="image/*" id="sendPhoto">
+                <img src="img/icon_photo.png">
+                <p>图片</p>
+            </div>
+        </div>
+    </div>
+    <script src="js/zepto.js"></script>
+    <script src="js/zepto.cookie.js"></script>
+    <script src="js/layer.js"></script>
+    <script src="js/minirefresh.min.js"></script>
+    <script type="text/javascript" src="https://cms.ruifengsec.com.cn/lib/previewImage.js?v=3.0"></script>
+    <script src="../env.js?v=20190104"></script>
+    <script src="js/main.js?v=20190104"></script>
+    <script src="js/detail.js?v=20190227"></script>
+</body>
+</html>

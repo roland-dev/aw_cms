@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 微软雅黑;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: 微软雅黑;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* max-width: 750px; */
+}
+
+.wrap{
+  max-width: 750px;
+  margin: 0 auto; 
+  display: none;
+}

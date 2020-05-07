@@ -1,0 +1,1 @@
+UPDATE `cms_content_guards` SET `service_code` = 'basic_free_service' WHERE `service_code` = 'basic' AND (`uri` = '/api/v2/propaganda/forum/{forumId}' OR `uri` = '/api/v2/propaganda/ad/{adId}');

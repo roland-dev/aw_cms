@@ -1,0 +1,12 @@
+*.swo
+*.swp
+*.exe
+*.msi
+*.zip
+*.tgz
+*.log
+*.sig
+*.Ds_store
+.idea/*
+.idea
+.lock

@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <title></title>
+  
+  <link rel="stylesheet" type="text/css" href="//res.wx.qq.com/mmocbiz/zh_CN/mobile/qy-msg/css/style-article-improve_9e913ad9.css">
+  <style type="text/css">
+    #loading {
+      position:absolute;
+      top:50%;
+      left:50%;
+      width: 32px;
+      height: 32px;
+      margin:-22px 0 0 -16px;
+      text-align: center;
+    } 
+    #page-content{
+      display: none;
+    }
+    .not_found{
+      display: none;
+      margin: 30px;
+      font-size: 24px;
+      color: #999;
+      text-align: center;
+    }
+    .not_right{
+      display: none;
+      margin-top: 30px;
+      font-size: 18px;
+      line-height: 40px;
+      text-align: center; 
+      color: #999;
+    }
+  </style>
+</head>
+<body id="activity-detail" class="zh_CN mm_appmsg" >
+  <div id="js_article" class="rich_media">
+    <div class="rich_media_inner">
+      <div id="page-content">
+        <div id="img-content" class="rich_media_area_primary">
+          <h2 class="rich_media_title" id="activity-name"></h2>
+          <div class="rich_media_meta_list">
+            <a class="rich_media_meta meta_enterprise_tag" href="//qy.weixin.qq.com/cgi-bin/wap_vcard?__biz=MzI4NDU4MTUzMA==">
+              <img src="images/logo_s.png">
+            </a>
+            <em id="post-date" class="rich_media_meta rich_media_meta_text">众赢量化工作室</em>
+            <em class="rich_media_meta rich_media_meta_text"></em>
+            <a class="rich_media_meta rich_media_meta_link rich_media_meta_nickname rich_media_meta_text" href="javascript:void(0);" id="post-user" style="pointer-events: none;"></span></a>
+            <span class="rich_media_meta rich_media_meta_text rich_media_meta_nickname"></span>
+          </div>
+          <div class="rich_media_content" id="js_content">
+            <p></p>
+            <div class="videoFrame" style="width:100%;position:relative; z-index:1;">
+              <video id="videoPlayer" class="video-js vjs-default-skin" controls="yes" preload="yes" width="100%" height="100%" controlslist="nodownload" playsinline="yes" x-webkit-airplay="true" webkit-playsinline="" oncontextmenu="return false;"></video>
+              <img id="loading" style="display:none;" src="images/loading2.gif">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="not_found"> 
+      <span class="tips">暂无记录，请耐心等待推送。</span>
+    </div>
+    <div class="not_right">
+      <img src="images/oops.png" alt="">
+      <p>您尚未开通该服务,</p>
+      <p>如有需要请联系您的客户经理！</p>
+    </div>
+  </div>
+
+  <div id="waterbox" style="width:100%;height:550px;position:absolute;z-index:999;left:0;top:0;pointer-events:none;opacity:0.1;filter:alpha(opacity=10)"></div>
+</body>
+<script src="//cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+<script type="text/javascript" src="js/jweixin.js"></script>
+<script src="../env.js"></script>
+<script type="text/javascript">
+  wx.config({
+    debug: false,
+    appId: 'wx05769c616082a6b9',
+    timestamp: 1530077651,
+    nonceStr: 'hMYMoafcYeV5mRFh',
+    signature: 'f2d69a9ae7a8116a446732e09663bd0dd5bc65d6',
+    jsApiList: [
+    // 所有要调用的 API 都要加到这个列表中
+    'hideAllNonBaseMenuItem', 'hideOptionMenu', 'getNetworkType'
+    ]
+  });
+  wx.ready(function() {
+    wx.hideAllNonBaseMenuItem();
+    wx.hideOptionMenu();
+  });
+
+  var app = getUrlParam("app")
+  var vid = getUrlParam("vid")
+
+  var currentVideoId;
+  var urlBase = "https://h5vv.video.qq.com/getinfo?callback=txPlay&&charge=0&defaultfmt=auto&otype=json&platform=11001&defnpayver=0&host=m.v.qq.com&newplatform=11001&defsrc=1&defn=shd&vid=";
+
+  $.ajax({
+    type: "post",
+    url: baseURL + "/api/v2/articles/coursevideo/detail",
+    data: {
+      "video_key": vid,
+    },
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(json){
+      var url = window.location.href
+      var encodeUrl = encodeURI(url)
+      if (json.code === 1000) {
+        console.log("调转登录")
+        window.location.href = json.callback_url + '?callback=' + encodeUrl;
+      } else if(json.code === 0){
+        // 如果是显示互动则显示iframe
+        if (!json.data.data.is_tencent) {
+          setTimeout(function(){
+            reportAction("get_video", currentVideoId)
+            // 本页面内嵌套iframe
+            $("#activity-detail").html('<iframe src="' + json.data.data.video_url + '" frameborder="0" width="100%" height="100%"></iframe>')
+            $("html").css("height", "100%")
+            $("body").css("height", "100%")
+            $("title").text(json.data.data.title)
+          }, 500)
+        } else {       // 如果是腾讯视频则读取id
+          $("#page-content").css("display", "block")
+          var iframeHeight = $("#zytg_player").width();
+          $("#zytg_player").css("height", iframeHeight * 0.8)
+          $("#zytg_player").attr("src", json.data.data.url_change)
+          // $()
+          $("title").text(json.data.data.title)                   // title栏
+          $("#activity-name").text(json.data.data.title)          // 标题栏   
+          $("#post-user").text(json.data.data.tag)            // 专属套餐
+          $('#waterbox').css('background', "url("+ getSVGTextBase64(json.data.data.customer_name)+")");  // 水印
+          currentVideoId = json.data.data.video_id    // 获取视频id
+          playVideo(currentVideoId, json.data.data.poster_url, urlBase);
+        }
+        
+      } else if(json.code === 401) {
+        $(".not_right").css("display", "block")
+        console.log(json.msg)
+      } else if(json.code === 404) {
+        $(".not_found").css("display", "block")
+      }
+    },
+    error: function(){
+      $(".not_found").css("display", "block")
+      console.log('获取数据失败');
+    }
+  })
+
+
+
+
+  function playVideo( video_id,  video_poster, url_base) {
+    if( video_id ){
+      try {
+        currentVideoId = video_id;
+        $('.videoFrame video').attr('poster', video_poster);
+
+        var jp = document.createElement("script");  
+        jp.type = "text/javascript";  
+        jp.src = url_base + video_id;  
+        document.getElementsByTagName("head")[0].appendChild(jp);  
+      } catch (err) {
+        alert("视频地址解释失败！");
+        console.log(err);
+      }
+    }
+  }
+
+  function txPlay(qqvideo) {
+    if( qqvideo && typeof(qqvideo.vl)  != "undefined" && qqvideo.vl.vi[0].fn ){
+      mp4source = qqvideo.vl.vi[0].ul.ui[0].url + qqvideo.vl.vi[0].fn + '?vkey=' + qqvideo.vl.vi[0].fvkey ;
+
+      $('.videoFrame video').attr('src', mp4source);
+
+      setTimeout(reportAction("get_video", currentVideoId), 500);
+
+      $('.videoFrame video').on("waiting",function(){  
+        $('#loading').show();
+      }); 
+      $('.videoFrame video').on("loadeddata",function(){  
+        $('#loading').hide();
+      }); 
+      $('.videoFrame video').on("play",function(){  
+        setTimeout(reportAction("play_video", currentVideoId), 100);
+        $('.videoFrame video').off("play"); 
+      }); 
+      $('.videoFrame video').on("ended",function(){  
+        setTimeout(reportAction("finish_video", currentVideoId), 100);
+      }); 
+    }
+  }
+
+  function reportAction(key, id) {
+    $.post('/pofolio.php?app=tj&action=add_action', { act_key: key, act_id: id }, function(response){
+    });
+  }
+  function getSVGTextBase64(text, svgStyle) {
+    var svgNS = 'http://www.w3.org/2000/svg';
+    function createTag(tag, objAttr) {
+      var oTag = document.createElementNS(svgNS, tag);
+      for (var attr in objAttr) {
+        oTag.setAttribute(attr, objAttr[attr]);
+      }
+      return oTag;
+    }
+
+    function encode(input) {
+
+      function utf8_encode(string) {
+        string = string.replace(/\r\n/g, "\n");
+        var utftext = "";
+
+        for (var n = 0; n < string.length; n++) {
+
+          var c = string.charCodeAt(n);
+
+          if (c < 128) {
+            utftext += String.fromCharCode(c);
+          }
+          else if ((c > 127) && (c < 2048)) {
+            utftext += String.fromCharCode((c >> 6) | 192);
+            utftext += String.fromCharCode((c & 63) | 128);
+          }
+          else {
+            utftext += String.fromCharCode((c >> 12) | 224);
+            utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+            utftext += String.fromCharCode((c & 63) | 128);
+          }
+
+        }
+
+        return utftext;
+      }
+      var output = "";
+      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+      var i = 0;
+      var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+      input = utf8_encode(input);
+      
+
+      while (i < input.length) {
+
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+          enc4 = 64;
+        }
+
+        output = output +
+        _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
+        _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+
+      }
+
+      return output;
+    }
+
+    if (!svgStyle) {
+      svgStyle = {
+        'width': '400px',
+        'height': '250px',
+        'text-anchor': 'left',
+        'font-size': '50px',
+        'fill': 'red',
+        'stroke': 'gray',
+        'transform': 'translate(0 50) rotate(-35)',
+        'x': '0.5em',
+        'y': '4.0em'
+      };
+    }     
+
+    var oSvg = createTag('svg', { 'xmlns': svgNS, 'width': svgStyle.width, 'height': svgStyle.height, });
+    var oText = createTag('text', svgStyle);
+    oText.innerHTML = text;
+    oSvg.appendChild(oText);
+
+    var svgStr = new XMLSerializer().serializeToString(oSvg);
+    var bgUrl = 'data:image/svg+xml;base64,' + encode(svgStr);
+    return bgUrl;
+  } 
+
+  function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]); return null; //返回参数值
+  }
+</script>
+
+<script>
+  //tx statsitic
+  var _mtac = {};
+  (function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.2";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500471073");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+  })();
+</script>
+</html>

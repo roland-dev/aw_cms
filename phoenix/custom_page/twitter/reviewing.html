@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="white">
+        <title>香江论剑</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/openAccount.css">
+    </head>
+    <body ontouchstart>
+        <div class="wrap">
+            <div class="user-message" id="user-message"></div>
+        </div>
+        <div class="xjlj-banner"><img src="img/xjlj_banner.png" alt=""></div>
+        <div class="content">
+            <img src="img/img_Verify1.png" class="img-account">
+            <div class="text">
+                <img src="img/img_bg.png" class="text-bg">
+                <div class="message">开户审核中，请耐心等待。。。</div>
+            </div>
+        </div>
+        <div class="ask">有疑问？戳这里！ </div>
+        <div class="dialog">
+            <div class="dialog-body">
+                <div class="close"><img src="img/icon_Close.png" alt=""></div>
+                <div class="header"><img src="img/message_title_bg.png" alt=""> 温馨提示 <img src="img/message_title_bg.png" alt="" class="header-rotate"></div>
+                <div>若登录后无法正常进入该模块，请确保：</div>
+                <div>1、您登录的手机号与在瑞丰证券开户的手机号保持一致</div>
+                <div>2、您在瑞丰证券已经提交开户申请且审核通过</div>
+                <div class="tel">有任何疑问，请您联系您的客户经理或拨打客服电话<a href="tel:4006987677">4006-9876-77</a>咨询</div>
+            </div>
+        </div>
+        <script src="js/zepto.js"></script>
+        <script src="js/layer.js"></script>
+        <script src="../env.js?v=20190104"></script>
+        <script src="js/main.js?v=20190104"></script>
+        <script>
+            // 保存最后登陆态
+            set('xjlj_last_url', window.location.href)
+            // 用户栏
+            $(".wrap").show()
+            var user_icon = "img/img_avatar_30pt.png";
+            var user_mobile = writeMobile().substring(0, 3) + "****" + writeMobile().substring(7, 11)
+            var userMessageHtml = '';
+            userMessageHtml += '<img class="user-img" src="' +
+            user_icon + '"><span class="phone-num">' +
+            user_mobile + '</span><div class="icon-message"><div class="message-num"></div></div><img class="signout" src="img/icon_Quit_Default.png">';
+            $("#user-message").html(userMessageHtml);
+
+            $('.ask').on('click', function(){
+                $('.dialog').show()
+            })
+            $('.close').on('click', function(){
+                $('.dialog').hide()
+            })
+            $(".wrap").on('click', '.signout', function () {
+                layer.open({
+                    content: '是否确认要退出登录？',
+                    btn: ['确认', '取消'],
+                    yes: function(index){
+                       logout();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

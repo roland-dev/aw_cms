@@ -1,0 +1,15 @@
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/mochengjun_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'mochengjun');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/hanke_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'hanke');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/zhouzhao_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = '10017');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/wangjian_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'wangjian1');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/hanmengze_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'hanmengze');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/zhuguang_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'zhuguang');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/xialiyuan_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'xialiyuan');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/lipeng_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'lipeng');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/xingetouyan_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = '001018');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/liebaotouyan_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'liebaotouyan');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/youweitouyan_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'youweitouyan');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/xiongyuan_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'xiongyuan');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/dingchong_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'Gdiongchong');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/lvxuedong_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'lvxuedong');
+UPDATE `cms_users` SET `icon_url` = 'http://res.zhongyingtougu.com/cms/head_icon/qiyashen_v2.png' WHERE `id` IN (SELECT `user_id` FROM `cms_ucenters` WHERE `enterprise_userid` = 'qiyashen');

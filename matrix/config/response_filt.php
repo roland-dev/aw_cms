@@ -1,0 +1,12 @@
+<?php
+return [
+    'cms_api' => [
+        CMS_API_X_JWT_NOT_FOUND => 1000,
+        CMS_API_X_SESSIONID_NOT_FOUND => 1000,
+        CMS_API_X_JWT_INVALID => 1002,
+        CMS_API_REQUEST_REFUSE => 1003,
+        CMS_API_NOT_IN_SHOW_TIME => 1004,
+        CMS_API_COOKIE_PARAMETER_NOT_FOUND => 1000,
+        CMS_API_COOKIE_PARAMETER_INVALID => 1002
+    ]
+];

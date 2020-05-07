@@ -1,0 +1,845 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #333;
+    background: #f8f8f8;
+    overflow: hidden;
+}
+/* 自定义滚动条 */	
+.scroll-bar::-webkit-scrollbar {
+  	width: 6px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+    border-radius: 50px;
+    background: #e6e6e6;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+     /*滚动条里面小方块*/
+    border-radius: 50px;
+    background: #d0d0d0;
+}
+.wrap{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+}
+.video-area{
+    flex: 1;
+    height: 100%;
+	background: #fff;
+}
+.discussion{
+    width: 359px;
+    height: 100%;
+    border-left: 1px solid #eee;
+}
+.video{
+	position: relative;
+	width: 100%;
+	height: calc(100% - 39px)
+}
+#loading {
+    position:absolute;
+    top:50%;
+    left:50%;
+    width: 32px;
+    height: 32px;
+    margin:-22px 0 0 -16px;
+    text-align: center;
+}   
+/* 控制弹幕输入隐藏 */
+.vhallPlayer-container .vhallPlayer-barrage-box{
+   display: none !important;
+}
+.video{
+    background: #333;
+}
+.video iframe{
+    width: 100%;
+    height: 100%;
+}
+.video .coffee-time{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #333;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    line-height: 36px;
+}
+.video .coffee{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-100px, -150px);
+}
+.video-control{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-25px, -50px);
+}
+.video-area .title{
+	height: 38px;
+	line-height: 38px;
+	padding-left: 12px;
+	font-size: 16px;
+	border-bottom: 1px solid #E2E2E2;
+}
+.tabs{
+	display: flex;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 16px;
+	color: #666;
+	background: #fff;
+	border-left: 1px solid #E2E2E2;
+	border-bottom: 1px solid #E2E2E2;
+}
+.tab{
+	flex: 1;
+	position: relative;
+	cursor: pointer;
+}
+.red-block{
+	position: absolute;
+	display: none;
+	left: 75px;
+	bottom: 0;
+	width: 30px;
+	height: 3px;
+	background: #FF5356;
+}
+.tab.acitve{
+	color: #FF5356;
+}
+.tab.active .red-block{
+	display: block;
+}
+.programme{
+    height: 100%;
+}
+#list{
+    padding: 16px;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+}
+li:last-child .cont{
+	border: none;
+}
+li .cont{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 8px;
+	padding-left: 12px;
+	padding-bottom: 10px;
+	border-left: 1px solid #A0A0A0;
+}
+li.active .cont{
+    border-left: 1px solid #FB3D41;
+}
+li:last-child .cont{
+	border: none;
+}
+.time{
+	font-size: 13px;
+	color: #666;
+}
+.time img{
+	vertical-align: -3px;
+	margin-right: 6px;
+}
+.cont .title{
+	line-height: 23px;
+	font-size: 16px;
+	margin: 4px 0;
+}
+.cont .author{
+	position: relative;
+	font-size: 13px;
+	line-height: 23px;
+}
+.author .teacher{
+	display: inline-block;
+	min-width: 150px;
+	font-size: 13px;
+}
+.author .status{
+	display: inline-block;
+	cursor: pointer;
+}
+.author .status .on{
+	display: none;
+}
+.author .status .off{
+	display: inline-block;
+}
+.author .status img{
+	margin-right: 4px;
+}
+.author .status.active{
+	color: #FF5356;
+}
+.author .status.active .on{
+    display: inline-block;
+}
+.author .status.active .off{
+    display: none;
+}
+.author .status.lookback{
+    color: #666;
+    cursor: pointer;
+}
+.author .status.lookback .on{
+    display: none;
+}
+.author .status.lookback .off{
+    display: inline-block;
+}
+.author .status.lookback.active{
+    color: #2BAAFF;
+    cursor: pointer;
+}
+.author .status.lookback.active .on{
+    display: inline-block;
+}
+.author .status.lookback.active .off{
+    display: none;
+}
+.interaction{
+    display: none;
+    height: calc(100% - 119px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.interaction .loading{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #666;
+    background: #fff;
+    cursor: pointer;
+    margin: 0 -16px;
+}
+.reply-bottom{
+	box-sizing: border-box;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 359px;
+	height: 80px;
+	background: #fff;
+	padding: 10px;
+}
+.send-box{
+	background: #f8f8f8;
+}
+.send-box textarea{
+	color: #A0A0A0;	
+	font-size: 14px;
+    width: calc(100% - 8px);
+    height: 20px;
+    line-height: 20px;
+    border: none;
+    background: transparent;
+    padding-left: 8px;
+    outline: none;
+    resize: none;
+    margin: 4px 0;
+}
+.actions{
+	margin-top: 8px;
+}
+.send-btn{
+	width: 48px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	border-radius: 2px;
+	color: #fff;
+	float: right;
+	background: #FB6367;
+	cursor: pointer;
+}
+.emoji{
+	margin-top: 4px;
+	color: #666;
+	font-size: 12px;
+	cursor: pointer;
+	width: 48px;
+}
+.emoji img{
+	vertical-align: -4px;
+	margin-right: 4px;
+}
+#limitLength{
+	float: right;
+	color: #999;
+	margin-right: 12px;
+	line-height: 24px;
+	font-size: 12px;
+}
+
+/* 互动列表 */
+.reply-list{
+	padding: 0 16px;
+}
+.reply-list .item{
+    overflow: hidden;
+}
+
+.reply-list .item .to-right{
+    float: right;
+}
+.reply-list .item .to-left .avatar{
+    float: left;
+    clear: both;
+}
+.reply-list .item .to-left .vote{
+	text-align: right;
+}
+.reply-list .item .to-right .avatar{
+    float: right;
+    clear: both;
+}
+.reply-list .item .to-right .intro{
+	text-align: right;
+}
+.reply-list .item .to-right .avatar{
+	/* text-align: right; */
+}		
+.reply-list .avatar{
+	width: 40px;
+}
+.reply-list .message{
+	width: calc(100% - 52px);
+	padding-left: 12px;
+	overflow: hidden;
+}
+.item .to-right .message{
+	padding-left: 0;
+	padding-right: 12px;
+}
+.avatar img{
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+}
+.message .intro,.message .intro .time{
+	font-size: 12px;
+	color: #999;
+}
+.message .name{
+	margin-right: 4px;
+}
+.message .richtext{
+    position: relative;
+    display: inline-block;
+	box-shadow:0px 0px 4px rgba(0,0,0,0.1);
+	background: #fff;
+	padding: 10px 12px;
+	margin-top: 4px;
+    border-radius: 4px;
+    min-width: 24px;
+}
+.item .to-right .message .richtext{
+    float: right;
+}
+.message .richtext .emoji-bg{
+    vertical-align: -4px;
+}
+.item .to-left .message .richtext:after{
+	content: "";
+	position: absolute;
+	left: -9px;
+	top: 0;
+	display: block;
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;  
+	border-right: 10px solid #fff;  
+	border-top: 10px solid #fff;  
+	border-bottom: 10px solid transparent;  
+}
+.item .to-right .message .richtext:after{
+	content: "";
+	position: absolute;
+	right: -9px;
+	top: 0;
+	display: block;
+	width: 0;
+	height: 0;
+	border-left: 10px solid #fff;  
+	border-right: 10px solid transparent;  
+	border-top: 10px solid #fff;  
+	border-bottom: 10px solid transparent;  
+}
+.message .vote{
+	margin-top: 6px;
+    margin-bottom: 14px;
+    height: 21px;
+	line-height: 18px;
+	font-size: 12px;
+    color: #A0A0A0;
+    cursor: pointer;
+    clear: both;
+}
+.message .vote.active{
+	color: #FF5356;
+}
+.message .vote img{
+	vertical-align: sub;
+}
+/* 头像区域 */
+.w-emoji{
+	display: none;
+}
+.emoji-area {
+	position: absolute;
+	bottom: 88px;
+	left: 8px;
+	width: 200px;
+    height: 100px;
+    overflow-x: hidden;
+	overflow-y: auto;
+	background: #fff;
+	border: 1px solid #fff;
+}
+.emoji-subscript{
+	position: absolute;
+	bottom: 73px;
+	left: 90px;
+	border: 8px solid transparent;
+	border-top: 8px solid #fff;
+}
+
+/* wEmoji雪碧图区域 */
+.emoji-column{
+	width: 200px;
+	height: 300px;
+}
+.wEmoji-item{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+.emoji-bg {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.emoji-bg[data-w="[OK.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -10px;
+}
+.emoji-bg[data-w="[爱心.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -10px;
+}
+.emoji-bg[data-w="[傲慢.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -50px;
+}
+.emoji-bg[data-w="[白眼.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -50px;
+}
+.emoji-bg[data-w="[抱拳.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -10px;
+}
+.emoji-bg[data-w="[悲伤.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -50px;
+}
+.emoji-bg[data-w="[鄙视.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -90px;
+}
+.emoji-bg[data-w="[闭嘴.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -90px;
+}
+.emoji-bg[data-w="[便便.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -90px;
+}
+.emoji-bg[data-w="[不屑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -10px;
+}
+.emoji-bg[data-w="[擦汗.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -50px;
+}
+.emoji-bg[data-w="[菜刀.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -90px;
+}
+.emoji-bg[data-w="[呲牙.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -130px;
+}
+.emoji-bg[data-w="[大哭.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -130px;
+}
+.emoji-bg[data-w="[蛋糕.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -130px;
+}
+.emoji-bg[data-w="[得意.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -130px;
+}
+.emoji-bg[data-w="[凋谢.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -10px;
+}
+.emoji-bg[data-w="[发呆.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -50px;
+}
+.emoji-bg[data-w="[发抖.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -90px;
+}
+.emoji-bg[data-w="[发怒.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -130px;
+}
+.emoji-bg[data-w="[奋斗.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -170px;
+}
+.emoji-bg[data-w="[尴尬.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -170px;
+}
+.emoji-bg[data-w="[高兴.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -170px;
+}
+.emoji-bg[data-w="[勾引.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -170px;
+}
+.emoji-bg[data-w="[鼓掌.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -170px;
+}
+.emoji-bg[data-w="[鬼脸.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -10px;
+}
+.emoji-bg[data-w="[哈欠.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -50px;
+}
+.emoji-bg[data-w="[害羞.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -90px;
+}
+.emoji-bg[data-w="[憨笑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -130px;
+}
+.emoji-bg[data-w="[合十.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -170px;
+}
+.emoji-bg[data-w="[嘿哈.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -210px;
+}
+.emoji-bg[data-w="[红包.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -210px;
+}
+.emoji-bg[data-w="[坏笑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -210px;
+}
+.emoji-bg[data-w="[机智.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -210px;
+}
+.emoji-bg[data-w="[鸡.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -210px;
+}
+.emoji-bg[data-w="[加油.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -210px;
+}
+.emoji-bg[data-w="[奸笑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -10px;
+}
+.emoji-bg[data-w="[惊恐.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -50px;
+}
+.emoji-bg[data-w="[惊讶.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -90px;
+}
+.emoji-bg[data-w="[囧.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -130px;
+}
+.emoji-bg[data-w="[咖啡.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -170px;
+}
+.emoji-bg[data-w="[可怜.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -210px;
+}
+.emoji-bg[data-w="[恐惧.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -250px;
+}
+.emoji-bg[data-w="[抠鼻.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -250px;
+}
+.emoji-bg[data-w="[口罩.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -250px;
+}
+.emoji-bg[data-w="[骷髅.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -250px;
+}
+.emoji-bg[data-w="[快哭了.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -250px;
+}
+.emoji-bg[data-w="[困.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -250px;
+}
+.emoji-bg[data-w="[礼物.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -250px;
+}
+.emoji-bg[data-w="[流汗.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -10px;
+}
+.emoji-bg[data-w="[流泪.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -50px;
+}
+.emoji-bg[data-w="[玫瑰.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -90px;
+}
+.emoji-bg[data-w="[难过.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -130px;
+}
+.emoji-bg[data-w="[怄火.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -170px;
+}
+.emoji-bg[data-w="[啤酒.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -210px;
+}
+.emoji-bg[data-w="[撇嘴.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -250px;
+}
+.emoji-bg[data-w="[强.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -290px;
+}
+.emoji-bg[data-w="[敲打.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -290px;
+}
+.emoji-bg[data-w="[亲亲.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -290px;
+}
+.emoji-bg[data-w="[庆祝.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -290px;
+}
+.emoji-bg[data-w="[拳头.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -290px;
+}
+.emoji-bg[data-w="[弱.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -290px;
+}
+.emoji-bg[data-w="[色.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -290px;
+}
+.emoji-bg[data-w="[傻呆.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -290px;
+}
+.emoji-bg[data-w="[删除.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -10px;
+}
+.emoji-bg[data-w="[胜利.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -50px;
+}
+.emoji-bg[data-w="[衰.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -90px;
+}
+.emoji-bg[data-w="[睡.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -130px;
+}
+.emoji-bg[data-w="[太阳.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -170px;
+}
+.emoji-bg[data-w="[调皮.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -210px;
+}
+.emoji-bg[data-w="[跳跳.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -250px;
+}
+.emoji-bg[data-w="[偷笑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -290px;
+}
+.emoji-bg[data-w="[吐.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -330px;
+}
+.emoji-bg[data-w="[吐舌头.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -330px;
+}
+.emoji-bg[data-w="[微笑.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -330px;
+}
+.emoji-bg[data-w="[委屈.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -330px;
+}
+.emoji-bg[data-w="[握手.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -330px;
+}
+.emoji-bg[data-w="[捂脸.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -330px;
+}
+.emoji-bg[data-w="[西瓜.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -330px;
+}
+.emoji-bg[data-w="[笑哭.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -330px;
+}
+.emoji-bg[data-w="[心碎.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -330px;
+}
+.emoji-bg[data-w="[嘘.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -10px;
+}
+.emoji-bg[data-w="[耶.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -50px;
+}
+.emoji-bg[data-w="[疑问.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -90px;
+}
+.emoji-bg[data-w="[阴险.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -130px;
+}
+.emoji-bg[data-w="[拥抱.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -170px;
+}
+.emoji-bg[data-w="[悠闲.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -210px;
+}
+.emoji-bg[data-w="[右哼哼.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -250px;
+}
+.emoji-bg[data-w="[愉快.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -290px;
+}
+.emoji-bg[data-w="[月亮.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -330px;
+}
+.emoji-bg[data-w="[晕.png]"]{
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -10px -370px;
+}
+.emoji-bg[data-w="[再见.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -50px -370px;
+}
+.emoji-bg[data-w="[炸弹.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -90px -370px;
+}
+.emoji-bg[data-w="[咒骂.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -130px -370px;
+}
+.emoji-bg[data-w="[皱眉.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -170px -370px;
+}
+.emoji-bg[data-w="[猪头.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -210px -370px;
+}
+.emoji-bg[data-w="[抓狂.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -250px -370px;
+}
+.emoji-bg[data-w="[转圈.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -290px -370px;
+}
+.emoji-bg[data-w="[嘴唇.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -330px -370px;
+}
+.emoji-bg[data-w="[左哼哼.png]"] {
+    width: 20px; height: 20px;
+    background: url('../images/emoji_sprites.png') -370px -370px;
+}

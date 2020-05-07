@@ -1,0 +1,53 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft YaHei", Arial;
+}
+body{
+  background: #fff;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+li{list-style: none;}
+.wrap .tip{
+	font-size: 13px;
+	color: #666;
+	padding: 10px 12px 12px 12px;
+	margin: 30px 0;
+	background: #fff5f5;
+	border-radius: 2px;
+}
+.wrap .tip .title{
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 2px;
+}
+.wrap .tip .title img{
+	width: 6px;
+	margin: 0 4px;
+	vertical-align: 1px;
+}
+.wrap .like{
+	position: relative;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+  background: #ccc;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.wrap .like img{
+	margin-top: 8px;
+}
+.wrap .like.clicked{
+	background: #fe2d3a;
+}
+.wrap .like .num{
+	position: absolute;
+	bottom: 5px;
+	width: 60px;
+	color: #fff;
+	text-align: center;
+}

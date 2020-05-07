@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+  	<meta name="format-detection" content="telephone=no">
+  	<meta name="apple-mobile-web-app-capable" content="yes">
+  	<meta name="apple-mobile-web-app-status-bar-style" content="white">
+	<title>老师介绍</title>
+	<link rel="stylesheet" href="css/article.css">
+	<script src="js/zepto.js"></script>
+	<script src="js/zepto.cookie.js"></script>
+  <script src="js/doT.min.js"></script>
+  <script src="../env.js"></script>
+  <script src="js/main.js"></script>
+</head>
+<body>
+	<div class="wrap" id="wrap">
+		<div class="teacher" id="teacher"></div>
+		<div class="programa" id="programa"></div>
+		<div class="refresh">
+			<img src="images/icon_NetworkError.png" alt="">
+			<div class="tip">网络出错了，请刷新重试</div>
+			<div class="btn">刷新</div>
+		</div>
+	<div>
+	<script id="teacherTemplate" type="text/template">
+		<div class="teacher">
+			<div class="title">
+				<img src="images/img_title_Left.png" alt="">
+				<span>老师介绍</span>
+				<img src="images/img_title_Left.png" alt="">
+			</div>
+			<div class="name">
+				{{? it.icon_url}}
+				<img src="{{= it.icon_url}}">
+				{{?}}
+				{{? !it.icon_url}}
+				<img src="images/img_avatar_40pt.png" alt="">
+				{{?}}
+				<span>{{= it.name}}</span>
+			</div>	
+			<div>{{= it.description}}</div>
+		</div>
+	</script>
+	<script id="proTemplate" type="text/template">
+		<div class="programa">
+			<div class="title">
+				<img src="images/img_title_Left.png" alt="">
+				<span>栏目介绍</span>
+				<img src="images/img_title_Left.png" alt="">
+			</div>
+			<p>【{{= it.name}}】{{= it.description}}</p>	
+		</div>
+	</script>
+</body>
+<script>
+	$(function(){
+		// 保存上次进入页面地址
+		saveLastUrl()
+		$.ajax({
+		    type: "get",
+		    url: baseURL + "/api/v2/category/" + getUrlParam('category') + "/info",
+		    dataType: "json",
+		    xhrFields: {
+		      withCredentials: true
+		    },
+		    success: function(res){
+		      	if(res.code === 0) {
+			      	var proTemplate = doT.template($("#proTemplate").html());
+			      	var teacherTemplate = doT.template($("#teacherTemplate").html());
+			        $('#programa').html(proTemplate(res.data));
+			        if (res.data.teacher_list[0]) {
+			        	$("title").html(res.data.name ? res.data.name : "和叔港股")
+			        	$('#teacher').html(teacherTemplate(res.data.teacher_list[0]));
+			        }
+		        } 
+		    },
+		    error: function(){
+		     	console.log('获取数据失败');
+		    }
+	    })
+
+	    function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+	});
+</script>
+</html>
+

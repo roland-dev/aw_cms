@@ -1,0 +1,432 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+  <title>投资论坛</title>
+  <link rel="stylesheet" href="//static.gensee.com/webcast/static/entry/css/reset.css">
+  <link rel="stylesheet" href="//static.gensee.com/webcast/static/entry/css/entry-mobile.css">
+  <style type="text/css">
+    .loadmore.with_line {
+      color: #9b9b9b;
+      margin: 5px 5px 30px;
+    }
+
+    body {
+      font-size: 16px;
+      font-family: "arial";
+    }
+
+    .hot-card {
+      background: white;
+      overflow: hidden;
+    }
+
+    .hot-card .content {
+      padding-top: 10px;
+      padding-left: 12px;
+      line-height: 28px;
+    }
+
+    .hot-card .title {
+      height: 21px;
+      line-height: 21px;
+      padding: 11px 12px;
+      overflow: hidden;
+      border-bottom: 1px solid #e2e2e2;
+      background: #f8f8f8;
+      font-size: 1.2em
+    }
+
+    .hot-card .title-name {
+      color: #ff573f;
+      float: left;
+    }
+
+    .hot-card .title-date {
+      color: #ff573f;
+      float: right;
+      font-size: 18px;
+    }
+
+    .hot-card:active {
+      background: #ececec
+    }
+
+    .content table {
+      width: 100%;
+      font-size: 16px;
+      text-align: justify;
+      text-justify: inter-ideograph;
+    }
+
+    .content table tr {
+      min-height: 24px;
+    }
+
+    table .red {
+      color: #e60020
+    }
+
+    table .green {
+      color: #1ebf62;
+    }
+
+    table .blue {
+      color: #0da4d3;
+    }
+
+    table .tl {
+      text-align: left;
+    }
+
+    table .tc {
+      text-align: center;
+    }
+
+    table .tr {
+      text-align: right;
+    }
+
+    table .mw {
+      width: 110px;
+      vertical-align: top;
+      color: #0da4d3;
+    }
+
+    @media screen and (min-width: 768px) {
+      .wrap {
+        width: 768px;
+        margin: auto;
+      }
+    }
+
+    .attention {
+      line-height: 25px;
+      text-align: center;
+      background: #fff;
+      padding: 8px 10px;
+      color: #0da4d3;
+    }
+
+    .gu_plan {
+      color: #0da4d3;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .not_right,
+    .not_show_time {
+      display: none;
+      margin-top: 30px;
+      font-size: 18px;
+      line-height: 40px;
+      text-align: center;
+      color: #999;
+    }
+
+    pre {
+      white-space: pre-wrap;       /* css-3 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -pre-wrap;      /* Opera 4-6 */
+      white-space: -o-pre-wrap;    /* Opera 7 */
+      word-wrap: break-word;       /* Internet Explorer 5.5+ */
+      word-break:break-all;
+      overflow:hidden;
+    }
+  </style>
+  <script type="text/javascript" src="//static.gensee.com/webcast/static/entry/js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="//static.gensee.com/webcast/static/entry/js/iscroll.js"></script>
+  <script type="text/javascript" src="//static.gensee.com/webcast/static/entry/js/entry.page.mobile.js"></script>
+  <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body>
+  <div id="webContainer" class="web">
+    <div class="header previous" style="position: relative;">
+      <h1></h1>
+    </div>
+    <div class="cards" id="cards">
+      <div class="not_right">
+        <p>您尚未开通该服务权限,</p>
+        <p>如有需要请联系您的客户经理！</p>
+      </div>
+      <div class="not_show_time">
+        <p>当前论坛不在展示时间段内！</p>
+      </div>
+      <div class="hot-card" style="cursor: pointer;">
+        <img src="" style="max-width:100%;width:100%;" id="poster">
+        <div class="content">
+          <table style="border-bottom: 1px dashed #e2e2e2; padding-bottom: 6px;" url-detail="/ai_table_detail.php?table_id=8">
+            <tbody>
+              <tr>
+                <td class="mw">主讲嘉宾：</td>
+                <td colspan="5" id="author"></td>
+              </tr>
+              <tr>
+                <td class="mw">开始时间：</td>
+                <td colspan="5" id="forum_date"></td>
+              </tr>
+              <tr>
+                <td class="mw">论坛时长：</td>
+                <td colspan="5" id="duration"></td>
+              </tr>
+
+              <tr>
+                <td class="mw">论坛简介</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td colspan="6" style="padding: 0px 8px 60px 0px;"><pre id="summary"></pre></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="bottom" style="position: fixed;">
+      <button id="enterBtnNew" class="enter-btn" type="button">
+
+        进入论坛
+        <smaller style="color:yellow; font-size: 16px;" id="countDownLabel"></smaller>
+
+      </button>
+    </div>
+    <div id="entryModule" class="entry-container">
+      <div class="header">
+        <h1></h1>
+      </div>
+      <div id="entryFormWrap" class="entry-form-wrap">
+        <div class="entry-form">
+          <div class="input-item">
+            <input id="nickNameInput" name="nickName" value="" class="input-txt" type="text" placeholder="请填入您的昵称">
+            <span id="nickNameErrorMsg" class="form-error"></span>
+          </div>
+          <div class="input-item">
+            <input id="tokenInput" name="token" type="password" class="input-txt" placeholder="点播密码">
+            <span id="tokenErrorMsg" class="form-error"></span>
+          </div>
+          <button class="submit-btn" type="button" onclick="checkToken();">
+            提交
+          </button>
+          <button class="cancel-btn cancel-btnNew" type="button">
+            取消
+          </button>
+          <div class="attention">温馨提示：论坛密码会在论坛开始前分发，
+            <br>您可向您的专属服务助理获取。</div>
+
+          <form action="" method="post"
+            id="form1">
+            <input type="hidden" name="uid" value="">
+            <input type="hidden" name="nickName" id="nickName" value="">
+            <input type="hidden" name="preLoading" value="false">
+            <input type="hidden" id="referrer" name="tk.detail.referrer">
+            <input type="hidden" id="token" name="token">
+            <input type="hidden" id="kInput" name="k" value="">
+            <input type="hidden" id="transInput" name="trans" value="false">
+            <input type="hidden" id="posInput" name="pos" value="">
+            <input type="hidden" id="passportInput" name="passport" value="">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../env.js"></script>
+  <script>
+    var countDownMinutes, countDownHour, showTime, gensee_key, gensee_url;
+    var COUNT_DOWN_INTERVAL_SECONDS = 60000;
+
+    function countDown() {
+      countDownMinutes = countDownMinutes - 1;
+      if (countDownMinutes < 60) {
+        if (countDownMinutes > 0) {
+          $('#countDownLabel').text("（离开始还有" + countDownMinutes + "分钟）");
+        } else if(countDownMinutes <= 0 && Math.abs(countDownMinutes) <= showTime ){
+          $('#countDownLabel').text("（直播中）");
+        } else if(Math.abs(countDownMinutes) > showTime){
+          if (gensee_url.indexOf("play") > 0) {
+            $('#countDownLabel').text("（录像回顾）")
+          } else {
+            $('#countDownLabel').text("（直播已经结束）");
+          }
+        }
+      } else {
+         $('#countDownLabel').text("（离开始还有" + countDownHour + "小时）")
+      }
+      if (countDownMinutes > 0) {
+        setTimeout(countDown, COUNT_DOWN_INTERVAL_SECONDS);
+      }
+    }
+
+    function checkToken() {
+      $(".input-item input").blur();
+      var nickName = $.trim($("#nickNameInput").val());
+      nickName = nickName.replace(new RegExp('"', "gm"), '');
+      if (nickName == null || nickName == "") {
+        $("#nickNameInput").val("");
+        $("#nickNameErrorMsg").html('请输入姓名');
+        return;
+      }
+      var value = $.trim($("#tokenInput").val());
+      $("#token").val(value);
+      $("#nickName").val($("#nickNameInput").val());
+      if (gensee_url.indexOf("play") < 0) {
+        $("#form1").submit();
+        return;
+      }
+
+      $.post("//fhcj.gensee.com/webcast/site/vod/check-" + gensee_key, {
+        "token": value
+      }, function (html) {
+        if (html == "success") {
+          $("#form1").submit();
+        } else {
+          $("#tokenErrorMsg").html(html);
+        }
+      });
+    }
+
+    function getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+
+    function is_wechat_client() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/WindowsWechat/i) == "windowswechat") {
+        alert("直播插件暂不支持在微信电脑版运行，请使用工具栏上方的【用默认浏览器打开】按钮，或改用手机版微信观看。 \n不便之处，敬请体谅。")
+      } else {
+        $("#entryModule").css("display", "block") 
+        $(".content").css("display", "none")
+        $("#form1").attr("action", gensee_url)
+      }
+    }
+
+
+    $(document).ready(function () {
+      var forumId = getUrlParam("id")
+      var url = window.location.href
+      var encodeUrl = encodeURI(url)
+
+      $(".cancel-btn").on("touchstart",function(){
+        $("#entryModule").fadeOut(300,function(){
+          $(".content").css("display", "block")
+        });
+      });
+      $.ajax({
+        type: "get",
+        url: baseURL + "/api/v2/forum/" + forumId,
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (json) {
+          if (json.code === 1000 || json.code === 1002) {
+            console.log("调转登录")
+            window.location.href = json.callback_url + '?callback=' + encodeUrl;
+          } else if (json.code === 1004) {
+            console.log(json.msg)
+            $(".hot-card").css("display", "none")
+            $(".not_show_time").css("display", "block")
+          } else if (json.code === 0) {
+            $("title").text("投资论坛 " + json.data[0].forum_date)
+            $("#poster").attr("src", json.data[0].poster_url)
+            $(".header").html("<h1>" + json.data[0].title + "</h1>")
+            $("#author").text(json.data[0].author)
+            $("#duration").text(json.data[0].duration + "分钟")
+            $("#forum_date").text(json.data[0].forum_date_short)
+            $("#summary").text(json.data[0].summary)
+            $("#countDownHour").text(json.data[0].hours)
+            strImgUrl = window.location.origin + json.data[0].poster_url 
+            strDesc = json.data[0].title 
+            gensee_key = json.data[0].gensee_key
+            countDownMinutes = json.data[0].minutes + 1;
+            gensee_url = json.data[0].gensee_url
+            showTime = json.data[0].duration
+            countDownHour = json.data[0].hours
+            countDown()
+            // setTimeout(countDown, COUNT_DOWN_INTERVAL_SECONDS);
+          } else {
+            $(".hot-card").css("display", "none")
+            $(".not_right").css("display", "block")
+          }
+        },
+        error: function () {
+          alert('请刷新页面');
+        }
+      })
+
+      $("#tokenInput").keydown(function (e) {
+        if (e.keyCode == 13) {
+          $("#tokenInput").blur();
+          checkToken();
+        }
+      });
+
+      if ($("#nickNameInput").val() == "") {
+        $("#nickNameInput").focus();
+      } else {
+        $("#tokenInput").focus();
+      }
+
+      $("#enterBtnNew").click(function () {
+        is_wechat_client()
+      });
+    });
+
+    wx.config({
+      debug: false,
+      appId: 'wx05769c616082a6b9',
+      timestamp: 1530701175,
+      nonceStr: 'j74JyGnsb8Bd4rxj',
+      signature: 'bb2c7635bb7a1b75687dc1dc26aa774d1eb1f616',
+      jsApiList: [
+        // 所有要调用的 API 都要加到这个列表中
+        'onMenuShareTimeline', "onMenuShareAppMessage", "onMenuShareQQ"
+      ]
+    });
+
+    // 在这里调用 API
+    var strDesc = "";
+    var strLink = window.location.href;
+    var strImgUrl = window.location.origin + "";
+
+    wx.ready(function () {
+      //分享朋友圈
+      wx.onMenuShareTimeline({
+        title: $("head title").text(), // 分享标题
+        desc: strDesc, //分享描述
+        link: strLink, // 分享链接
+        imgUrl: strImgUrl, // 分享图标
+
+      });
+
+      //分享给微信好友
+      wx.onMenuShareAppMessage({
+        title: $("head title").text(), // 分享标题
+        desc: strDesc, //分享描述
+        link: strLink, // 分享链接
+        imgUrl: strImgUrl, // 分享图标
+      });
+
+      //分享到QQ
+      wx.onMenuShareQQ({
+        title: $("head title").text(), // 分享标题
+        desc: strDesc, //分享描述
+        link: strLink, // 分享链接
+        imgUrl: strImgUrl, // 分享图标
+      });
+    });
+
+  </script>
+</body>
+
+</html>

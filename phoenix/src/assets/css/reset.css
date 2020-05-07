@@ -1,0 +1,145 @@
+/*样式初始化*/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  border: none;
+}
+
+
+/* element 提供常用字体大小 */
+
+h1 {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+
+/* 小号正文 */
+
+h4 {
+  font-size: 13px;
+}
+
+
+/* 辅助文字 */
+
+h5 {
+  font-size: 12px;
+}
+
+
+/* 浮动及清浮动 */
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+
+/* 文字对齐方式 */
+
+.tl {
+  text-align: left;
+}
+
+.tc {
+  text-align: center;
+}
+
+.tr {
+  text-align: right
+}
+
+
+/* 常用间距 */
+
+.mt5 {
+  margin-top: 5px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.ml5 {
+  margin-left: 5px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+
+.mb5 {
+  margin-bottom: 5px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.pt5 {
+  margin-top: 5px;
+}
+
+.pt10 {
+  margin-top: 10px;
+}
+
+.pb5 {
+  margin-bottom: 5px;
+}
+
+.pb10 {
+  margin-bottom: 10px;
+}
+
+.inline {
+  display: inline-block;
+}

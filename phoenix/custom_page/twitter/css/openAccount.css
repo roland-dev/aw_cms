@@ -1,0 +1,113 @@
+html {
+    background: #fff;
+}
+
+.xjlj-banner{
+  margin: 44px auto 0;
+  width: 100%;
+  max-width: 750px;
+}
+.xjlj-banner img {
+  width: 100%;
+}
+
+.content {
+    margin-top: 30px;
+    text-align: center;
+}
+.content .img-account {
+    width: 108px;
+}
+.text {
+   position: relative;
+}
+.text-bg {
+    width: 98.8%;
+}
+.text .message {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 21%;
+    font-size: 14px;
+    color: #999999;
+}
+.text .btn {
+    position: absolute;
+    top: 57%;
+    left: 25.9%;
+    height: 44px;
+    width: 48%;
+    background-color: #298cfc;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 44px;
+    text-align: center;
+    -webkit-touch-callout:none; 
+    -webkit-user-select:none;   
+    -khtml-user-select:none;  
+    -moz-user-select:none;  
+    -ms-user-select:none;   
+    user-select:none; 
+}
+.text .btn:active {
+    background-color: #247DE2;
+    color: rgba(189, 185, 185, 0.8);
+}
+
+/*温馨提示*/
+.ask{
+    position: fixed;
+    bottom: 36px;
+    width: 100%;
+    text-align: center;
+    color: #7aadd7;
+    font-size: 14px;
+}
+.dialog{
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .3);
+    z-index: 99;
+}
+.dialog.visible{
+    display: block;
+}
+.dialog-body{
+    position: absolute;
+    bottom: 0;
+    font-size: 14px;
+    width: 100%;
+    color: #292a2f;
+    background: #fff;
+    padding: 20px 15px 27px 15px;
+    z-index: 101;
+}
+.header{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4px;
+}
+.header img{
+    width: 18px;
+}
+.header-rotate{
+    transform: rotate(180deg);
+}
+.tel{
+    margin-top: 10px;
+}
+.close{
+    position: absolute;
+    top: -32px;
+    right: 12px;
+}
+.close img{
+    width: 22px;
+}

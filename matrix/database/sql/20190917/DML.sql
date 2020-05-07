@@ -1,0 +1,14 @@
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('shipindengji_group', '视频登记分组', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('xiangjianglunjian', '香江论剑', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('twitter_group_a', 'A股解盘', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('article_group_a', 'A股文章', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('allwin_visible', '	众赢财富通外显栏目', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('allwin_dapanfenxi', '	众赢财富通大盘分析', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('zhouzhanbao', '	周战报分组', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('g_app_xuetang_tab0', '大盘分析', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('g_app_xuetang_tab1', '大盘分析', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('openning', 'boss推送原【专家看盘】栏目组', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('g_zycj', '和众汇富在线众赢财经', '', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('g_zycj_tj', '众赢财经', '名师汇聚，专家解盘，独家解析财经要闻，深度挖掘市场机会！', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('g_zycj_sd', '众赢财经', '名师汇聚，专家解盘，独家解析财经要闻，深度挖掘市场机会！', NOW(), NOW());
+INSERT INTO `cms_column_groups`(`code`, `name`, `descript`, `created_at`, `updated_at`) VALUES('article_group_push_qywx', '文章推送企业微信栏目组	', '', NOW(), NOW());

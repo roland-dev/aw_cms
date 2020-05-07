@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<title>近期消息一览</title>
+	<link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.1/weui.css">
+	<link rel="stylesheet" href="css/local.css">
+	<style type="text/css"> 
+	    .weui_media_box {
+	        padding: 10px 15px 5px 15px;
+	        position: relative;
+	    }
+		.not_found{
+			display: none;
+			margin: 30px;
+			font-size: 24px;
+			color: #999;
+			text-align: center;
+		}
+		.appmsg{
+			display: none;
+		}
+		.not_right{
+		    display: none;
+		    margin-top: 30px;
+		    font-size: 18px;
+		    line-height: 40px;
+		    text-align: center; 
+		    color: #999;
+		}
+	</style>
+	<script src="//cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+	<script src="js/doT.min.js"></script>
+	<script src="../env.js"></script>
+</head>
+<body>
+	<div class="profile_info appmsg">
+	    <span class="radius_avatar profile_avatar"><img src="images/basic.png" id="icon">众赢投顾</span>
+	    <strong class="profile_nickname"> <span id="categroy"></span><span id="nickname"></span></strong>
+	    <p class="profile_desc" id="profile_desc">和众汇富旗下专业资讯服务</p>       
+	</div>
+	<div class="not_found">
+		页面不存在。。。
+	</div>
+	<div class="weui_category_title js_tag">所有消息</div>
+	<div class="weui_msg_card_list" id="js_msg_card"></div>
+	<script id="template" type="text/template">
+	    {{~ it:data }}
+	    {{? data.media_type === "text" }}
+	    <div class="weui_msg_card">
+	      <div class="weui_msg_card_bd">
+	        <div class="weui_media_box text">
+	          <div class="weui_media_bd">
+	            {{= data.content_local_data }}
+	          </div>
+	          <div class="weui_media_ft">
+	            <p class="weui_media_extra_info">{{= data.add_time }}</p>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    {{?? data.media_type === "image" }}
+	    <div class="weui_msg_card">
+	      <div class="weui_msg_card_bd">
+	        <a href="{{= data.source_url }}" target="_blank">
+	          <div class="weui_media_box img" >
+	            <div class="weui_media_bd">
+	              <img src="{{= data.thumb_cdn_url }}" alt="">
+	            </div>
+	            <div class="weui_media_ft">
+	              <p class="weui_media_extra_info">{{= data.add_time }}</p>
+	            </div>
+	          </div>
+	        </a>
+	      </div>
+	    </div>
+	    {{?? data.media_type === "voice" }}
+	    <div class="weui_msg_card">
+	      <div class="weui_msg_card_bd" onclick="document.getElementById('audio_{{= data.file_id }}').play();" >
+	        <div class="weui_media_box audio">
+	          <div class="weui_media_bd">
+	            <div class="weui_audio" length="15" data-flag="false">
+	              <span class="audio_switch">
+	                <i class="icon_audio_default"></i>
+	                <i class="icon_audio_playing"></i>
+	              </span>
+	              <div class="audio_content">
+	                <strong class="audio_title">语音指导信息</strong>
+	                <p class="audio_desc">{{= Math.ceil(data.play_time/1000) }} 分钟</p>
+	                <audio preload type="audio/mpeg" src="{{= data.source_url }}" id="audio_{{= data.file_id }}" alt="">not support</audio>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="weui_media_ft">
+	            <p class="weui_media_extra_info">{{= data.add_time }}</p>
+	          </div>
+	        </div>
+	      </div>
+	    </div>  
+	    {{?? data.media_type === "news" }}
+	    <div class="weui_msg_card">
+	      <div class="weui_msg_card_bd" onclick="window.location.href='{{= data.url }}';">
+	        <div class="weui_media_box appmsg" >
+	          <span class="weui_media_hd" style="background-image:url({{= data.thumb_cdn_url }})" data-s="640"></span>
+	          <div class="weui_media_bd">
+	            <h4 class="weui_media_title">
+	              {{= data.title }}
+	            </h4>
+	            {{? data.digest }}
+	            <p class="weui_media_extra_info">{{= data.digest }}</p>
+	            {{?}}
+	            <p class="weui_media_extra_info">{{= data.add_time }}</p>
+	          </div>
+	        </div>
+	      </div>
+	    </div>  
+	    {{?? data.media_type === "video" }}
+	    <div class="weui_msg_card">
+	      <div class="weui_msg_card_bd" onclick="window.location.href='//qy.weixin.qq.com/cgi-bin/show?uin=NTQ2MDEzMTM1&videoid={{= data.file_id }}';">
+	       <div class="weui_media_box video">
+	        <div class="weui_media_hd">
+	          <span class="video_cover" style="background-image:url({{= data.thumb_cdn_url }})"></span>
+	        </div>
+	        <div class="weui_media_bd js_video">
+	          <p class="weui_media_title js_video">{{= data.title }}</p>
+	        </div>
+	        <div class="weui_media_ft">
+	          {{? data.digest }}
+	          <p class="weui_media_extra_info">{{= data.digest }}</p>
+	          {{?}}
+	          <p class="weui_media_extra_info">{{= data.add_time }} （{{= Math.ceil(data.play_time) }}分钟）</p>
+	        </div>
+	      </div>
+	    </div>
+	  </div>  
+	  {{?? (data.media_type === "file" || data.media_type === "pdf") }}
+	  <div class="weui_msg_card">
+	    <div class="weui_msg_card_bd">
+	      <a href="{{= data.source_url }}" target="_blank">
+	        <div class="weui_media_box appmsg" >
+	          <span class="weui_media_hd" style="background-size: 60px; background-image:url({{= data.thumb_cdn_url }})" data-s="640" ></span>
+	          <div class="weui_media_bd js_video">
+	            <p class="weui_media_title js_video">{{= data.title }}</p>
+	          </div>
+	          <div class="weui_media_ft">
+	            <p class="weui_media_extra_info">大小：{{= (data.file_size/1000000).toFixed(2) }} M</p>
+	            <p class="weui_media_extra_info">{{= data.add_time }}</p>
+	          </div>
+	        </div>
+	      </a>
+	    </div>
+	  </div>  
+	  {{?}}
+
+	  {{~}}
+	</script>
+	<div class="loadmore" style="display: none;" id="js_loading">
+	  <div class="tips_wrp"><i class="icon_loading"></i><span class="tips">正在加载</span></div>
+	</div>
+
+	<div class="loadmore with_line" style="display:none;" id="js_norecord">
+	  <div class="tips_wrp">
+	    <span class="tips">暂无记录，请耐心等待推送。</span>
+	  </div>温馨提示：此处仅显示关注后接收到的信息，刚关注或未有推送安排时显示为空。
+	</div>
+	<div class="not_right">
+        <img src="images/oops.png" alt="">
+        <p>您尚未开通该服务,</p>
+        <p>如有需要请联系您的客户经理！</p>
+    </div>
+</body>
+<script type="text/javascript">
+	$(function(){
+	    $.ajax({
+		    type: "get",
+		    url: baseURL + "/api/v2/articles/course/xuezhanfa/" + getUrlParam("systemcode") + '/' +  getUrlParam("group"),
+		    dataType: "json",
+		    xhrFields: {
+		      withCredentials: true
+		    },
+		    success: function(json){
+                var articleList = [];
+		      	if(json.code === 0) {
+              articleData = json.data.articles
+              if (articleData.length > 0) {
+                articleData.forEach( articles => {
+                  articleList = articles.group_articles.concat(articleList)
+                })
+                if (articleList.length > 0) {
+                  articleList.forEach( d => {
+                    d.url = baseURL + "/api/v2/client/course/detail/" + d.detail_id
+                  })
+                }
+                let dot = doT.template($("#template").html());
+                $('#js_msg_card').html(dot(articleList));
+
+                $("#js_loading").css("display", "none");
+                if (articleList.length == 0) {
+			        	  $("#js_norecord").css("display", "block");
+			          }
+              }
+             
+			        
+
+			        if(json.data.articles[0]) {
+			        	$(".appmsg").css("display", "block")
+			        	json.data.columns[1].categories.forEach( d => {
+			        		if (d.category_key === json.data.articles[0].category_key ) {
+			        			$('#categroy').text(d.category_name)
+			        			$('title').text(d.category_name + " 近期消息一览")
+			        		}
+			        	})
+                        if (json.data.articles[0].category_key === "basic") {
+			                $('#nickname').text("《" + json.data.articles[0].group_name + "》")
+                            $('#profile_desc').text(json.data.articles[0].summary)
+                        } else {
+                            $('#profile_desc').text(json.data.summary)
+                        }
+
+			        }
+		        } else if(json.code === 1000) {
+		        	console.log("调转登录")
+		        	var url = window.location.href
+              var encodeUrl= encodeURIComponent(url)
+              window.location.href = json.callback_url + '?callback=' + encodeUrl;
+		        } else if(json.code === 401) {
+		        	$(".not_right").css("display", "block")
+		        } else{
+		        	// $(".not_found").css("display", "block")
+		        	$("#js_norecord").css("display", "block")
+		        } 
+		    },
+		    error: function(){
+		    	$(".not_found").css("display", "block")
+		        $(".appmsg").css("display", "none")
+		     	console.log('获取数据失败');
+		    }
+	    })
+
+	    function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+	});
+</script>
+<script>
+//tx statsitic
+var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.2";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500471073");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script>
+</html>

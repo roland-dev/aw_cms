@@ -1,0 +1,78 @@
+html {
+    background: #fff;
+}
+
+.title {
+    height: 66px;
+    padding: 12px 0px;
+    border-bottom: solid 1px #f1f1f1;
+    text-align: center;
+}
+
+.title .hd {
+    font-size: 16px;
+    font-weight: bold;
+    height: 22px;
+    color: #333333;
+    line-height: 22px;
+    margin-bottom: 2px;
+}
+
+.title .hd img{
+    width: 18px;
+    height: 12px;
+    margin: 0px 8px;
+}
+
+.title .hd img.rotate {
+    -webkit-transform: rotateZ(180deg);
+    -moz-transform: rotateZ(180deg);
+    -o-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+}
+
+.title .bd {
+    font-size: 13px;
+    line-height: 18px;
+    color: #999999;
+}
+
+.title .bd a{
+    color: #298cfc;
+}
+
+.content {
+    margin: 0px 15px 20px;
+}
+
+.content .message {
+    margin-top: 20px;
+}
+
+.content .no-notice {
+  margin: 48px auto;
+  font-size: 15px;
+  color: #333;
+  text-align: center
+}
+
+.message .time {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 18px;
+    color: #999999;
+    text-align: center;
+}
+.message .body {
+    padding: 12px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    border: solid 1px #e2e2e2;
+}
+.body .text {
+    font-size: 15px;
+    line-height: 21px;
+    color: #333333;
+}

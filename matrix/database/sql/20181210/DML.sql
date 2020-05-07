@@ -1,0 +1,1 @@
+INSERT INTO `cms_permissions`(`code`, `name`, `pre_code`, `active`, `created_at`) VALUES ('user_group', '用户组管理', 'admin', 1, NOW());

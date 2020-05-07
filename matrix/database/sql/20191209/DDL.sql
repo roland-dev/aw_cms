@@ -1,0 +1,1 @@
+ALTER TABLE `cms_twitters` MODIFY COLUMN `image_url` varchar(2000) DEFAULT '' COMMENT '发送的图片';

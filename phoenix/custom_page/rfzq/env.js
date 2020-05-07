@@ -1,0 +1,1 @@
+var android_download_url = 'http://config.iqdii.com/tsci_update/android/rfg/RFG_v1.0.8.apk';

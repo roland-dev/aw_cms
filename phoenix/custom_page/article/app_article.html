@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+  <title></title>
+  <link rel="stylesheet" href="css/article.css">
+  <link href="js/need/layer.css" rel="stylesheet">
+  <style>
+    .views img{
+      border-radius: 50%;
+    }
+  </style>
+  <script src="js/zepto.js"></script>
+  <script src="js/zepto.cookie.js"></script>
+  <script src="js/doT.min.js"></script>
+  <script src="../env.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/layer.js"></script>
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <div id="user"></div>
+    <div class="article" id="article"></div>
+    <div class="refresh">
+      <img src="images/icon_NetworkError.png" alt="">
+      <div class="tip">网络出错了，请刷新重试</div>
+      <div class="btn" onclick="refresh()">刷新</div>
+    </div>
+    <div class="no-key">
+      <img src="images/icon_NetworkError.png" alt="">
+      <div class="tip">您尚未开通此服务，如有需要请联系您的客户经理<br>或拨打客服电话4006-9876-77咨询</div>
+    </div>
+  </div>
+  <script id="articleTpl" type="text/template">
+    <div class="title">{{= it.title}}</div>
+    <div class="actives">
+      <span class="views">
+        <img src="{{= it.teacher_icon_url}}" alt="图片加载中..." width="16px" >
+        <span class="views-num">{{= it.teacher_name}}</span>
+      </span>
+      <span class="time">{{= cutstr(it.published_at, 16)}}</span>
+    </div>
+    <div class="content">{{= it.content}}</div>
+    <div class="tip">
+      <div class="title">
+        <img src="images/img_risk.png" alt=""> 风险提示
+        <img src="images/img_risk.png" alt="">
+      </div>
+      <div>以上内容仅供参考，不构成任何投资建议。股市有风险，投资需谨慎！</div>
+    </div>
+  </script>
+</body>
+<script>
+  $(function () {
+    // 请求文章
+    $.ajax({
+      type: "get",
+      url: baseURL + "/api/v2/client/article/" + getUrlParam("id"),
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function (res) {
+        if (res.code === 0) {
+          $("title").html(res.data.article.title)
+          var articleTpl = doT.template($("#articleTpl").html())
+          if (res.data.article.teacher_icon_url === "") {
+            res.data.article.teacher_icon_url = "images/img_avatar_50pt.png"
+          }
+          $('#article').html(articleTpl(res.data.article));
+          setTimeout(function(){
+            fitIframe()
+          }, 200);
+        }
+      },
+      error: function (err) {
+        console.log(err.status)
+        if (err.status === 401) {
+          $(".no-key").show()
+        } else {
+          $(".refresh").show()
+        }
+      }
+    })
+  })
+</script>
+</html>

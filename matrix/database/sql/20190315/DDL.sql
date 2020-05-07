@@ -1,0 +1,1 @@
+ALTER TABLE `cms_twitter_guards` ADD `execute_at` TIMESTAMP NULL COMMENT '自动执行脚本查询用户出入金信息时间' AFTER `updated_at`;

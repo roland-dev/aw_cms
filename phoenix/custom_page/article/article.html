@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+  <title></title>
+  <link rel="stylesheet" href="css/article.css">
+  <link href="js/need/layer.css" rel="stylesheet">
+  <script src="js/zepto.js"></script>
+  <script src="js/zepto.cookie.js"></script>
+  <script src="js/doT.min.js"></script>
+  <script src="../env.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/layer.js"></script>
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <div id="user"></div>
+    <div class="article" id="article"></div>
+    <div class="refresh">
+      <img src="images/icon_NetworkError.png" alt="">
+      <div class="tip">网络出错了，请刷新重试</div>
+      <div class="btn" onclick="refresh()">刷新</div>
+    </div>
+  </div>
+  <div class="dialog">
+    <div class="dialog-body">
+      <div class="close">×</div>
+      <div class="title">手机登录</div>
+      <div class="content">
+        <div class="wrap">
+          <div class="form">
+            <div class="item">
+              <input type="tel" id="telephone" placeholder="请输入手机号" maxlength="11">
+            </div>
+            <div class="item get-sms">
+              <input type="tel" id="smsCode" placeholder="请输入验证码" maxlength="6">
+
+            </div>
+            <div class="sms" id="sms">获取验证码</div>
+            <div class="sms-voice">收不到短信验证码？ 使用
+              <span id="voice">语音验证</span>
+            </div>
+            <div class="submit-button">提交</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script id="userTpl" type="text/template">
+    {{? it.isLogin}}
+    <div class="user">
+      <span class="avatar">
+        <img src="{{= it.icon_url}}" alt="" width="30px" height="30px">
+      </span>
+      <span class="telephone">{{= it.mobile}}</span>
+      <span class="quit" onclick="logout()"></span>
+    </div>
+    <div class="fixeduser">
+      <div class="user">
+        <span class="avatar">
+          <img src="{{= it.icon_url}}" alt="" width="30px" height="30px">
+        </span>
+        <span class="telephone">{{= it.mobile}}</span>
+        <span class="quit" onclick="logout()"></span>
+      </div>
+
+    </div>
+    {{?}}
+  </script>
+  <script id="articleTpl" type="text/template">
+    <div class="title">{{= it.title}}</div>
+    <div class="actives">
+      <span class="views">
+        <img src="images/img_ReadingVolume.png" alt="图片加载中..." width="16px">
+        <span class="views-num">{{= formatReadNum(it.read)}}</span>
+      </span>
+      <span class="time">{{= cutstr(it.published_at, 16)}}</span>
+    </div>
+    {{? it.audio_url !== ''}}
+    <div class="voice">
+      <audio src="{{= it.audio_url}}">亲 您的浏览器不支持html5的audio标签</audio>
+    </div>
+    {{?}}
+    <div class="intro">
+      <b>摘要：</b>{{= it.summary}}</div>
+    <div class="content">{{= it.content}}</div>
+    <div class="tip">
+      <div class="title">
+        <img src="images/img_risk.png" alt=""> 风险提示
+        <img src="images/img_risk.png" alt="">
+      </div>
+      <div>以上内容仅供参考，不构成任何投资建议。股市有风险，投资需谨慎！</div>
+    </div>
+    {{? it.like === 1}}
+    <div class="like clicked">
+      {{??}}
+      <div class="like">
+        {{?}}
+        <div>
+          <img src="images/icon_like_Big.png" alt="" width="24">
+        </div>
+        <div class="num">{{= formatLikeNum(it.like_count)}}</div>
+      </div>
+  </script>
+</body>
+<script src="js/audio.min.js"></script>
+<script src="js/md5.js"></script>
+<script>
+  $(function () {
+    // 是否已点赞
+    var isLike = false;
+    var isCryptonym = false;
+    var cryptonymKey = ""
+    var likeNum;
+    var isLogin = false;
+    var EXP = 1000 * 60 * 60 * 10;
+    var user;
+
+    var telephone = $("#telephone");
+    var smsCode = $("#smsCode");
+    var smsBtn = $("#sms")
+    var voiceBtn = $("#voice")
+    var smsToken = ""; // 验证码token
+    var countdown = 60; // 倒计时
+    var countdownTime = false;
+    var voicesStart = false; // 语音验证码
+
+    // 获取用户信息
+    if (get('user', EXP)) {
+      user = get('user', EXP)
+      isLogin = true
+      user.data.mobile = user.data.mobile.substring(0,3) + "****" + user.data.mobile.substring(7, 11)
+      user.data.isLogin = isLogin
+      user.data.icon_url = user.data.icon_url ? user.data.icon_url : "images/img_avatar_30pt.png"
+      var userTpl = doT.template($("#userTpl").html())
+      $('#user').html(userTpl(user.data));
+    }
+
+    // 保存上次进入页面地址
+    saveLastUrl()
+
+    if (localStorage.getItem("hk_cryptonym_key")) {
+      cryptonymKey = localStorage.getItem("hk_cryptonym_key")
+    } else {
+      getCryptonymKey()
+    }
+
+
+
+    // 添加阅读数
+    $.ajax({
+      type: "post",
+      url: baseURL + "/api/v2/article/" + getUrlParam("id") + "/read",
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function (res) {},
+      error: function () {
+        console.log('获取数据失败');
+      }
+    })
+
+    // 请求文章
+    $.ajax({
+      type: "get",
+      url: baseURL + "/api/v2/article/" + getUrlParam("id") + "?udid=" + cryptonymKey,
+      dataType: "json",
+      // 暂时不登录，后期优化
+      // headers: {
+      //   "X-SessionId": localStorage.getItem("hk_uc_sessionId")
+      // },
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function (res) {
+        if (res.code === 0) {
+          var articleTpl = doT.template($("#articleTpl").html())
+          $('#article').html(articleTpl(res.data.article));
+          $('title').html(res.data.article.title)
+          // 音频播放器
+          audiojs.events.ready(function() {
+            var as = audiojs.createAll();
+          });
+          likeNum = res.data.article.like_count
+          if (res.data.article.like) {
+            isLike = true;
+          }
+          setTimeout(function(){
+            fitIframe()
+          }, 200);
+        }
+      },
+      error: function () {
+        $(".refresh").css("display", "block")
+      }
+    })
+
+    // 用户点赞功能
+    $('#wrap').on("click", ".like", function () {
+      if (isLike) {
+        return false;
+      } else {
+        $.ajax({
+          type: "post",
+          url: baseURL + "/api/v2/article/" + getUrlParam("id") + "/like",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true
+          },
+          // 暂时不登录，后期优化
+          // headers: {
+          //   "X-SessionId": localStorage.getItem("hk_uc_sessionId"),
+          // },
+          data: {'udid': cryptonymKey},
+          success: function (res) {
+            if ($('.num').text() === "999+" || Number($('.num').text()) > 999) {
+              $('.num').text('999+')
+            } else {
+              $('.num').text(++likeNum)
+            }
+            $('.like').addClass("clicked");
+            isLike = true;
+          },
+          error: function () {
+            $('.dialog').css("display", "block")
+            clear('user')
+            $('.user').css("display", "none")
+            if (writeMobile()) {
+              telephone.val(writeMobile())
+            }
+          }
+        })
+      }
+    })
+
+
+    $(".close").click(function () {
+      $('.dialog').css("display", "none")
+    })
+
+    // 获取验证码
+    smsBtn.click(function () {
+      if (countdownTime) {
+        return false;
+      }
+      // 检验手机号码
+      if (checkSubmitTelephone()) {
+        // 请求手机短信验证码
+        var telephoneData = '{"mobile":' + telephone.val() + ',"product": "rfzq","opCode": "signin"}'
+        $.ajax({
+          type: "post",
+          url: UC_API_URL + "/sms/signin",
+          xhrFields: {
+            withCredentials: true // 跨域请求
+          },
+          dataType: "json",
+          contentType: "application/json",
+          data: telephoneData, // 连同请求发送到服务器的数据。
+          success: function (data) {
+            // 数据成功返回时执行次回调函数
+            if (data.code === 0) {
+              saveMobile(telephone.val())
+              smsToken = data.data.smsToken
+              // sessionStorage中存放smsToken的值
+              sessionStorage.setItem("smsToken", data.data.smsToken)
+
+              if (data.data.smsCode !== "") {
+                smsCode.val(data.data.smsCode)
+              }
+              // 开启60s倒计时
+              startCountdown();
+            } else {
+              if (data.code === 20600) {
+                layer.open({
+                  content: '该手机号已有众赢财富通账号',
+                  btn: '确认'
+                });
+              } else {
+                layer.open({
+                  content: data.msg,
+                  btn: '确认'
+                });
+              }
+            } 
+          },
+          error: function (data) {
+            console.log(data.msg)
+          }
+        });
+      }
+    });
+
+    // 获取语音验证
+    voiceBtn.click(function () {
+      if (voicesStart) {
+        return false;
+      }
+
+      // 检验手机号码
+      if (checkSubmitTelephone()) {
+        voicesStart = true;
+        startVCountdown()
+        if (smsToken) {
+          $.ajax({
+            type: "post",
+            url: UC_API_URL + "/sms/voices/" + smsToken,
+            xhrFields: {
+              withCredentials: true // 跨域请求
+            },
+            success: function (data) {
+              //数据成功返回时执行次回调函数
+              if (data.code === 0) {
+                saveMobile(telephone.val())
+                smsToken = data.data.smsToken
+                // sessionStorage中存放smsToken的值
+                sessionStorage.setItem("smsToken", data.data.smsToken)
+
+                if (data.data.smsCode !== "") {
+                  smsCode.val(data.data.smsCode)
+                }
+                // 开启倒计时
+                setTimeout(function () {
+                  voicesStart = false;
+                }, 2000)
+              } else {
+                alert(data.msg)
+              }
+            },
+            error: function (data) {
+              console.log(data.msg)
+            }
+          });
+        } else {
+          // 请求手机语音验证码
+          var telephoneData = '{"mobile": "' + telephone.val() + '", "product": "rfzq", "opCode": "signin"}'
+          $.ajax({
+            type: "post",
+            url: UC_API_URL + "/sms/voices",
+            xhrFields: {
+              withCredentials: true // 跨域请求
+            },
+            dataType: "json",
+            contentType: "application/json",
+            data: telephoneData, //连同请求发送到服务器的数据。
+            success: function (data) {
+              //数据成功返回时执行次回调函数
+              if (data.code === 0) {
+                smsToken = data.data.smsToken
+                sessionStorage.setItem("smsToken", data.data.smsToken)
+                if (data.data.smsCode !== "") {
+                  smsCode.val(data.data.smsCode)
+                }
+                // 开启倒计时
+                setTimeout(function () {
+                  voicesStart = false;
+                }, 2000)
+              } else {
+                alert(data.msg)
+              }
+            },
+            error: function (data) {
+              console.log(data.msg)
+            }
+          });
+        }
+
+      }
+    })
+
+    // 提交手机信息 
+    $(".submit-button").click(function () {
+      // 获取验证码存储于sessionStorage中的smsToken
+      smsToken = sessionStorage.getItem("smsToken")
+
+      // 领取体验资格进行
+      var sbData = {
+        "mobile": telephone.val(),
+        "smsCode": smsCode.val(),
+        "smsToken": smsToken,
+        "bizName": "rfzq"
+      }
+      var submitData = JSON.stringify(sbData)
+
+      // 检验手机号码和验证码
+      if (checkVerificationCode()) {
+        if (smsToken === "" || smsToken === null) {
+          alert("请重新获取验证码!")
+        } else {
+          $.ajax({
+            type: "post",
+            url: UC_API_URL + "/rfzq/session/mobile",
+            xhrFields: {
+              withCredentials: true // 跨域请求
+            },
+            dataType: "json",
+            contentType: "application/json",
+            data: submitData, //连同请求发送到服务器的数据。
+            success: function (data) {
+              //数据成功返回时执行次回调函数
+              if (data.code === 0) {
+                setUser(data.data)
+              } else {
+                alert("手机验证码错误！")
+              }
+
+            },
+            error: function (data) {
+              console.log(data.msg)
+            }
+          })
+        }
+
+      }
+    });
+
+    // 手机号码合法性检验
+    function checkSubmitTelephone() {
+      if (telephone.val() === "") {
+        alert("手机号码不能为空！");
+        telephone.focus();
+        return false;
+      }
+      if (!telephone.val().match(/^1\d{10}$/)) {
+        alert("手机号码格式不正确！");
+        telephone.focus();
+        return false;
+      }
+      return true;
+    };
+
+    // 手机号码和验证码检验
+    function checkVerificationCode() {
+      if (telephone.val() === "") {
+        alert("手机号码不能为空！");
+        telephone.focus();
+        return false;
+      }
+
+      if (!telephone.val().match(/^1\d{10}$/)) {
+        alert("手机号码格式不正确！");
+        telephone.focus();
+        return false;
+      }
+
+      if (smsCode.val() === "") {
+        alert("验证码不能为空！");
+        smsCode.focus();
+        return false;
+      }
+      if (!smsCode.val().match(/^\d{6}$/)) {
+        alert("验证码少于6位！");
+        smsCode.focus();
+        return false;
+      }
+      return true;
+    };
+
+    // 短信验证码倒计时
+    function startCountdown() {
+      countdownTime = true;
+      if (countdown === 0) {
+        $(".smsCode-button").removeClass("default")
+        smsBtn.html("获取验证码")
+        countdownTime = false;
+        smsBtn.removeClass("countdown")
+        countdown = 60;
+      } else {
+        smsBtn.addClass("countdown")
+        smsBtn.html(countdown + 's')
+        countdown--;
+        setTimeout(function () {
+          startCountdown()
+        }, 1000)
+      }
+    }
+
+    // 验证码倒计时
+    function startVCountdown() {
+      countdownTime = true;
+      if (countdown === 0) {
+        voiceBtn.html("语音验证")
+        countdownTime = false;
+        voiceBtn.removeClass("countdown")
+        countdown = 60;
+      } else {
+        voiceBtn.addClass("countdown")
+        voiceBtn.html(countdown + 's')
+        countdown--;
+        setTimeout(function () {
+          startVCountdown()
+        }, 1000)
+      }
+    }
+
+    // 获取匿名用户身份码
+    function getCryptonymKey () {
+      var date = new Date().getTime()
+      cryptonymKey = random(4) + '-' + hex_md5(date)
+      localStorage.setItem("hk_cryptonym_key", cryptonymKey)
+    }
+
+    function random(length) {
+      var str = Math.random().toString(36).substr(2);
+      if (str.length>=length) {
+          return str.substr(0, length);
+      }
+      str += random(length-str.length);
+      return str;
+    }
+  })
+
+</script>
+
+</html>

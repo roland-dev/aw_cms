@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+  <title></title>
+  <link rel="stylesheet" href="css/article.css">
+  <link rel="stylesheet" href="js/need/layer.css" >
+  <link rel="stylesheet" href="css/minirefresh.min.css">  
+  <script src="js/zepto.js"></script>
+  <script src="js/zepto.cookie.js"></script>
+  <script src="js/doT.min.js"></script>
+  <script src="../env.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dropload.js"></script>
+  <script src="js/minirefresh.min.js"></script>
+  <script src="js/layer.js"></script>
+</head>
+
+<body>
+  <div id="minirefresh" class="minirefresh-wrap">
+    <div class="minirefresh-scroll">
+      <div class="wrap" id="wrap">
+        <div id="user"></div>
+        <div id="fixeduser" class="fixeduser"></div>
+        <div id="list"></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="refresh">
+      <img src="images/icon_NetworkError.png" alt="">
+      <div class="tip">网络出错了，请刷新重试</div>
+      <div class="btn" onclick="refresh()">刷新</div>
+    </div>
+  </div>
+  <script id="userTpl" type="text/template">
+    {{? it.isLogin}}
+    <div class="user">
+      <span class="avatar">
+        <img src="{{= it.icon_url}}" alt="" width="30px" height="30px">
+      </span>
+      <span class="telephone">{{= it.mobile}}</span>
+      <span class="quit" onclick="logout()"></span>
+    </div>
+    {{?}}
+  </script>
+  <script id="template" type="text/template">
+    <div class="list">
+      <a class="category" href="intro.html?category={{= it.code}}">
+        {{? it.cover_url}}
+        <img src="{{= it.cover_url}}" alt="" width="100%">
+        {{??}}
+        <img src="images/img_banner_hsgg.png" alt="" width="100%">
+        {{?}}
+        <div class="name">{{= it.name}}</div>
+        {{? it.summary === ''}}
+        <div class="summary">全面解读大盘资讯</div>
+        {{??}}
+        <div class="summary">{{= it.summary}}</div>
+        {{?}}
+        <div class="entry">详细介绍 ></div>
+      </a>
+      <div class="tab-box">
+        <div class="nav">
+          <div class="tabs">
+            {{~ it.sub_category_list:category:index}}
+            <div class="tab">{{= category.name}}
+              <div class="show"></div>
+            </div>
+            {{~}}
+          </div>
+        </div>
+      </div>
+
+      {{~ it.sub_category_list:category:index}}
+      <ul class="content">
+        {{~ category.article_list:article}} {{?article.show === 1 && article.cover_url !== ''}}
+        <li onclick="toArticle({{= article.id}})">
+          <div class="title">{{= article.title}}</div>
+          <div class="intro">
+            <div class="thumbnail">
+              <img src="{{= article.cover_url}}" alt="图片加载中..." onerror="this.src='images/default.png';this.onerror=null" width="120" height="68">
+            </div>
+            <div class="summary omit">{{= article.summary}}</div>
+          </div>
+          <div class="actives">
+            <span class="views">
+              <img src="images/img_ReadingVolume.png" alt="图片加载中..." width="16px">
+              <span class="views-num">{{= formatReadNum(article.read)}}</span>
+            </span>
+            <span class="time">{{= cutstr(article.published_at, 19)}}</span>
+          </div>
+        </li>
+        {{?? article.show === 1 && article.cover_url === ''}}
+        <li onclick="toArticle({{= article.id}})">
+          <div class="title">{{= article.title}}</div>
+          <div class="intro">
+            <div class="summary">{{= article.summary}}</div>
+          </div>
+          <div class="actives">
+            <span class="views">
+              <img src="images/img_ReadingVolume.png" alt="图片加载中..." width="16px">
+              <span class="views-num">{{= formatReadNum(article.read)}}</span>
+            </span>
+            <span class="time">{{= cutstr(article.published_at, 19)}}</span>
+          </div>
+        </li>
+        {{?}} {{~}}
+      </ul>
+      {{~}}
+    </div>
+  </script>
+</body>
+<script>
+  $(function () {
+    var isLogin = false;
+    var EXP = 1000 * 60 * 60 * 10
+    var user;
+    var listUrl;
+    var tabIndex = 0;
+    // 是否有上次登录地址
+    enterLastUrl()
+
+    $("#wrap").on("click", ".tab", function () {
+      $(".tab").removeClass("active")
+      $(".tab").eq($(this).index()).addClass("active")
+      $(".content").removeClass("active")
+      $(".content").eq($(this).index()).addClass("active")
+      saveActiveTab($(this).index())
+    })
+    if (getUrlParam("category")) {
+      listUrl = baseURL + "/api/v2/article/" + getUrlParam("category") + "/list"
+    } else {
+      listUrl = baseURL + "/api/v2/article/heshuganggu/list"
+    }
+
+    function getList() {
+      if (get('user', EXP)) {
+        user = get('user', EXP)
+        isLogin = true
+        user.data.mobile = user.data.mobile.substring(0, 3) + "****" + user.data.mobile.substring(7, 11)
+        user.data.isLogin = isLogin
+        var userTpl = doT.template($("#userTpl").html())
+        $('#user').html(userTpl(user.data));
+        $('#fixeduser').html(userTpl(user.data));
+      } else {
+        $('.user').css('display', 'none')
+      }
+      $.ajax({
+        type: "get",
+        url: listUrl,
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (res) {
+          if (res.code === 0) {
+            var dot = doT.template($("#template").html())
+            $("title").html(res.data.name ? res.data.name : "和叔港股")
+            $('#list').html(dot(res.data));
+            adaptTab()
+            if (writeActiveTab()) {
+              tabIndex = writeActiveTab()
+            }
+            $('.tab')[tabIndex] && $('.tab')[tabIndex].click()
+          }
+        },
+        error: function () {
+          $(".refresh").css("display", "block")
+        }
+      })
+
+    }
+
+    getList()
+
+    setTimeout(() => {
+      var miniRefresh = new MiniRefresh({
+        container: '#minirefresh',
+        down: {
+            //isLock: true,//是否禁用下拉刷新
+            callback: function () {
+              if (get('user', EXP)) {
+                user = get('user', EXP)
+                isLogin = true
+                user.data.isLogin = isLogin
+                var userTpl = doT.template($("#userTpl").html())
+                $('#user').html(userTpl(user.data));
+                $('#fixeduser').html(userTpl(user.data));
+              } else {
+                  $('.user').css('display', 'none')
+              }
+              $.ajax({
+                  type: "get",
+                  url: listUrl,
+                  dataType: "json",
+                  xhrFields: {
+                    withCredentials: true
+                  },
+                  success: function (res) {                    
+                    if (res.code === 0) {
+                      var dot = doT.template($("#template").html())
+                      $('#list').html(dot(res.data));
+                      adaptTab()
+                      if (writeActiveTab()) {
+                        tabIndex = writeActiveTab()
+                      }
+                      $('.tab')[tabIndex] && $('.tab')[tabIndex].click()
+                    }
+                    setTimeout(function(){
+                        miniRefresh.endDownLoading(true)  // 结束下拉刷新
+                    }, 500);
+                    
+                  },
+                  error: function () {
+                      miniRefresh.endDownLoading(true)  // 结束下拉刷新
+                  }
+                })
+            }
+        },
+        up: {
+            // isAuto: true,
+            callback: function(){
+              miniRefresh.endUpLoading(true) 
+            }
+        }
+      });
+    }, 2500);  
+  })
+
+
+  $(window).scroll(function () {
+    if ($(this).scrollTop() >= 1) {
+      $('.fixeduser').css('display', 'block')
+    } else {
+      $('.fixeduser').css('display', 'none')
+    }
+  });
+
+</script>
+
+</html>
